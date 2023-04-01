@@ -16,6 +16,13 @@ module.exports = function (api) {
           },
         },
       ],
+      // https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/installation#babel-plugin
+      [
+        'react-native-reanimated/plugin',
+        {
+          relativeSourceLocation: true,
+        },
+      ],
     ],
   };
 };

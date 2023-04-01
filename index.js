@@ -1,4 +1,6 @@
-import { registerRootComponent } from 'expo';
+// https://docs.swmansion.com/react-native-gesture-handler/docs/installation#ios
+import 'react-native-gesture-handler';
+import {registerRootComponent} from 'expo';
 
 import App from './App';
 
