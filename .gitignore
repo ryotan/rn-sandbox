@@ -58,3 +58,7 @@ web-build/
 
 # TypeScript
 *.tsbuildinfo
+
+# Jest
+jest-junit.xml
+/coverage
