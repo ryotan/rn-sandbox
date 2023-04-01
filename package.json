@@ -5,7 +5,16 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "test": "jest --detectOpenHandles --runInBand",
+    "test:coverage": "jest --detectOpenHandles --runInBand --coverage",
+    "test:report": "jest --detectOpenHandles --runInBand --reporters=default --reporters=jest-junit --coverage",
+    "lint": "run-s --print-name --continue-on-error lint:*",
+    "lint:es": "eslint --ignore-path .gitignore --ext .jsx,.js,.tsx,.ts .",
+    "lint:tsc": "tsc --noEmit",
+    "fix": "run-s --print-name --continue-on-error fix:*",
+    "fix:es": "eslint --ignore-path .gitignore --fix --ext .jsx,.js,.tsx,.ts .",
+    "postinstall": "run-s postinstall:*",
+    "postinstall:patch-package": "patch-package"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
@@ -86,6 +95,13 @@
     "rimraf": "^4.4.1",
     "ts-expect": "^1.3.0",
     "typescript": "^4.9.4"
+  },
+  "jest-junit": {
+    "suiteNameTemplate": "{filepath}",
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}",
+    "ancestorSeparator": " › ",
+    "outputName": "jest-junit.xml"
   },
   "private": true
 }
