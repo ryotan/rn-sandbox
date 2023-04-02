@@ -62,3 +62,7 @@ web-build/
 # Jest
 jest-junit.xml
 /coverage
+
+# Bundler
+.bundle/
+!.bundle/config

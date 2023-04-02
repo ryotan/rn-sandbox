@@ -5,6 +5,8 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "pod-install": "bundle exec pod install --repo-update --project-directory=ios",
+    "pod-install:clean": "rimraf ios/Pods && bundle exec pod install --repo-update --project-directory=ios",
     "test": "jest --detectOpenHandles --runInBand",
     "test:coverage": "jest --detectOpenHandles --runInBand --coverage",
     "test:report": "jest --detectOpenHandles --runInBand --reporters=default --reporters=jest-junit --coverage",
