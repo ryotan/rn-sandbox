@@ -1,0 +1,187 @@
+# https://github.com/marketplace/actions/release-drafter
+
+# The template for the body of the draft release. Use template variables to insert values.
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+# Will be prepended to template. Use template variables to insert values.
+header: ''
+
+# Will be appended to template. Use template variables to insert values.
+footer: ''
+
+# The template to use for each category. Use category template variables to insert values. Default: "## $TITLE".
+category-template: '## $TITLE'
+
+# The template for the name of the draft release. For example: "v$NEXT_PATCH_VERSION".
+name-template: $RESOLVED_VERSION 🌈
+
+# The template for the tag of the draft release. For example: "v$NEXT_PATCH_VERSION".
+tag-template: $RESOLVED_VERSION
+
+# A known prefix used to filter release tags.
+# For matching tags, this prefix is stripped before attempting to parse the version. Default: ""
+tag-prefix: ''
+
+# The template to use when calculating the next version number for the release.
+# Useful for projects that don't use semantic versioning. Default: "$MAJOR.$MINOR.$PATCH"
+version-template: '$MAJOR.$MINOR.$PATCH'
+
+# The template to use for each merged pull request.
+# Use change template variables to insert values. Default: "* $TITLE (#$NUMBER) @$AUTHOR".
+change-template: '- $TITLE by @$AUTHOR in #$NUMBER'
+
+# Characters to escape in $TITLE when inserting into change-template
+# so that they are not interpreted as Markdown format characters. Default: ""
+change-title-escapes: '\<*_&@' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+
+# The template to use for when there’s no changes. Default: "* No changes".
+no-changes-template: '- No changes'
+
+# Categorize pull requests using labels. Refer to Categorize Pull Requests to learn more about this option.
+categories:
+  - title: 💣 BREAKING CHANGES
+    labels:
+      - BREAKING CHANGE
+
+  - title: 🌱 New Features
+    labels:
+      - feature
+
+  - title: ✨ Enhancements
+    labels:
+      - enhancement
+      - performance
+
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+
+  - title: 📝 Documentation
+    labels:
+      - doc
+
+  - title: ⬆️ Dependency Updates
+    labels:
+      - dependencies
+    collapse-after: 5
+
+  - title: 🧰 Maintenance
+    label: chore
+
+# Exclude pull requests using labels. Refer to Exclude Pull Requests to learn more about this option.
+exclude-labels:
+  - skip-release-note
+
+# Include only the specified pull requests using labels. Refer to Include Pull Requests to learn more about this option.
+#include-labels: []
+
+# Exclude specific usernames from the generated $CONTRIBUTORS variable.
+# Refer to Exclude Contributors to learn more about this option.
+exclude-contributors: [ ]
+
+# Include pre releases as "full" releases when drafting release notes. Default: false.
+include-pre-releases: false
+
+# The template to use for $CONTRIBUTORS when there's no contributors to list. Default: "No contributors".
+no-contributors-template: No contributors
+
+# Search and replace content in the generated changelog body. Refer to Replacers to learn more about this option.
+replacers: [ ]
+
+# Sort changelog by merged_at or title. Can be one of: merged_at, title. Default: merged_at.
+sort-by: merged_at
+
+# Sort changelog in ascending or descending order. Can be one of: ascending, descending. Default: descending.
+sort-direction: descending
+
+# Mark the draft release as pre-release. Default false.
+prerelease: false
+
+# Adjust the $RESOLVED_VERSION variable using labels. Refer to Version Resolver to learn more about this
+version-resolver:
+  major:
+    labels:
+      - major
+  minor:
+    labels:
+      - minor
+  patch:
+    labels:
+      - patch
+  default: patch
+
+# The release target, i.e. branch or commit it should point to.
+# Default: the ref that release-drafter runs for, e.g. refs/heads/master if configured to run on pushes to master.
+#commitish:
+
+# Filter previous releases to consider only those with the target matching commitish. Default: false.
+filter-by-commitish: false
+
+# Restrict pull requests included in the release notes to only the pull requests that modified any of the paths in this array.
+# Supports files and directories. Default: []
+include-paths: [ ]
+
+# You can add automatically a label into a pull request, with the autolabeler option.
+# Available matchers are files (glob), branch (regex), title (regex) and body (regex).
+# Matchers are evaluated independently; the label will be set if at least one of the matchers meets the criteria.
+autolabeler:
+  # Add 'iOS' label to any change within the 'ios' directory
+  - label: iOS
+    files:
+      - ios/**/*
+  # Add 'Android' label to any change within the 'android' directory
+  - label: Android
+    files:
+      - android/**/*
+  # Add 'app' label to any change within the 'src' directory and to the files listed below
+  - label: app
+    files:
+      - assets/**/*
+      - src/**/*
+      - app.config.js
+      - index.js
+  # Add 'build' label to any changes to the files listed below
+  - label: build
+    files:
+      - .script/**/*
+      - configs/**/*
+      - .editorconfig
+      - .eslintrc.js
+      - .prettierrc.js
+      - .tool-versions
+      - babel.config.js
+      - Gemfile
+      - Gemfile.lock
+      - metro.config.js
+      - package.json
+      - package-lock.json
+      - tsconfig.json
+  # Add 'chore' label to any change within the '.github' directory and to the files listed below
+  - label: chore
+    files:
+      - .github/**/*
+      - .bundle/**/*
+      - .idea/**/*
+      - .gitattributes
+      - .gitignore
+      - .editorconfig
+      - .gitattributes
+      - .gitignore
+      - .tool-versions
+      - LICENSE
+  # Add 'doc' label to any change within the 'website/docs' directory
+  - label: doc
+    files:
+      - README.md
+  # Add 'test' label to any change to files within the directories listed below
+  - label: test
+    files:
+      - src/**/*.test.tsx
+      - jest/**/*
+      - jest.config.js
+  - label: bug
+    branch:
+      - '/(hot)?fix\/.+/'

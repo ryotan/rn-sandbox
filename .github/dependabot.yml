@@ -1,0 +1,29 @@
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+
+x-shared-config: &config
+  schedule:
+    interval: 'weekly'
+  allow:
+    - dependency-type: 'production'
+  commit-message:
+    prefix: '🔒️: '
+    include: 'scope'
+  labels:
+    - 'dependencies'
+  open-pull-requests-limit: 0
+  versioning-strategy: 'increase-if-necessary'
+
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    <<: *config
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    <<: *config
+  - package-ecosystem: 'gradle'
+    directory: '/android'
+    <<: *config
+  - package-ecosystem: 'gradle'
+    directory: '/android/app'
+    <<: *config
