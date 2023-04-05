@@ -26,6 +26,6 @@ export default {
     web: {
       favicon: './assets/favicon.png',
     },
-    plugins: ['./configs/plugins/withXcode143Workaround', 'expo-build-properties', 'expo-localization'],
+    plugins: ['expo-build-properties', 'expo-localization'],
   },
 };

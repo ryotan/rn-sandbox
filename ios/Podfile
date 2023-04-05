@@ -58,17 +58,6 @@ target 'RNSandbox' do
   )
 
   post_install do |installer|
-    # @generated begin withXcode143Workaround - expo prebuild (DO NOT MODIFY) sync-00ef367383aa36212d305ca24baf63546b90fc67
-    #   Workaround for build errors that occur with Xcode 14.3.
-    #   See https://github.com/facebook/react-native/issues/36635
-    installer.pods_project.targets.each do |target|
-      if ['React-Codegen'].include? target.name
-        target.build_configurations.each do |config|
-          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = podfile_properties['ios.deploymentTarget'] || '13.0'
-        end
-      end
-    end
-    # @generated end withXcode143Workaround
     react_native_post_install(
       installer,
       config[:reactNativePath],
