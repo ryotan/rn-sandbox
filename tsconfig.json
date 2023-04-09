@@ -1,0 +1,98 @@
+// TSConfig Reference: https://www.typescriptlang.org/tsconfig
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    /********************************************************************************
+     * Projects
+     ********************************************************************************/
+    /* Enable constraints that allow a TypeScript project to be used with project references. */
+    "composite": false,
+    /* Enable incremental compilation for projects. */
+    "incremental": true,
+
+    /********************************************************************************
+     * Language and Environment
+     ********************************************************************************/
+    /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "esnext",
+    /* Specify what JSX code is generated. */
+    "jsx": "react-native",
+    /* Specify a set of bundled library declaration files that describe the target runtime environment. */
+    "lib": ["es2019"],
+
+    /********************************************************************************
+     * Modules
+     ********************************************************************************/
+    /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "module": "commonjs",
+    /* Specify how TypeScript looks up a file from a given module specifier. */
+    "moduleResolution": "node",
+    /* Enable importing .json files. */
+    "resolveJsonModule": true,
+    /* Specify the base directory to resolve non-relative module names. */
+    "baseUrl": ".",
+    /* Specify a set of entries that re-map imports to additional lookup locations. */
+    "paths": {
+      // To use following path aliases, you must set `baseDir` to `.` in the `tsconfig.json` of each package or app.
+      "@@/*": ["*"],
+      "@@assets/*": ["assets/*"],
+      "@/*": ["src/apps/app/*"],
+      "@bases/*": ["src/bases/*"],
+      "@features/*": ["src/features/*"],
+      "@fixtures/*": ["src/fixtures/*"]
+    },
+
+    /********************************************************************************
+     * JavaScript Support
+     ********************************************************************************/
+    /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
+    "allowJs": true,
+    /* Enable error reporting in type-checked JavaScript files. */
+    "checkJs": false,
+
+    /********************************************************************************
+     * Emit
+     ********************************************************************************/
+    /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
+    "declaration": true,
+    /* Create sourcemaps for d.ts files. */
+    "declarationMap": true,
+    /* Create source map files for emitted JavaScript files. */
+    "sourceMap": true,
+
+    /********************************************************************************
+     * Interop Constraints
+     ********************************************************************************/
+    /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "esModuleInterop": true,
+    /* Ensure that casing is correct in imports. */
+    "forceConsistentCasingInFileNames": true,
+    /* Ensure that each file can be safely transpiled without relying on other imports. */
+    "isolatedModules": true,
+    /* Allow 'import x from y' when a module doesn't have a default export. */
+    "allowSyntheticDefaultImports": true, // Synthetic default imports are used in Expo SDK...
+
+    /********************************************************************************
+     * Type Checking
+     ********************************************************************************/
+    /* Enable all strict type-checking options. */
+    "strict": true,
+    /* Enable error reporting for code-paths that do not explicitly return in a function. */
+    "noImplicitReturns": true,
+    /* Enable error reporting for fallthrough cases in switch statements. */
+    "noFallthroughCasesInSwitch": true,
+
+    /********************************************************************************
+     * Completeness
+     ********************************************************************************/
+    "skipLibCheck": true,
+
+    /********************************************************************************
+     * Emit
+     ********************************************************************************/
+    /* Do not emit outputs. */
+    "noEmit": true
+  },
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", ".prettierrc.js", ".eslintrc.js"]
+}
