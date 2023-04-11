@@ -129,6 +129,7 @@ const LogLevelSet = {
   info: 1,
   warn: 2,
   error: 3,
+  mute: Number.POSITIVE_INFINITY,
 };
 type LogLevel = keyof typeof LogLevelSet;
 
