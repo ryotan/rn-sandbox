@@ -1,7 +1,29 @@
 import {ConsoleTransport} from './ConsoleTransport';
 import type {LogFormatter, LogLevel} from './Logger';
-import {Logger} from './Logger';
+import {createLogger, Logger} from './Logger';
 import {SimpleLogFormatter} from './SimpleLogFormatter';
+
+describe('createLogger', () => {
+  test('ログオプションを指定しなかった場合の検証', () => {
+    const log = createLogger();
+    expect(log['level']).toEqual(1);
+    expect(log['formatter']).toBeInstanceOf(SimpleLogFormatter);
+    expect(log['transports']).toHaveLength(1);
+    expect(log['transports'][0]).toBeInstanceOf(ConsoleTransport);
+  });
+  test('ログオプションを指定した場合の検証', () => {
+    const formatter = new (class TestLogFormatter implements LogFormatter {
+      format(level: LogLevel, message: string, errorCode?: string): string {
+        return message;
+      }
+    })();
+    const transports = [new ConsoleTransport()];
+    const log = createLogger({level: 'info', formatter, transports});
+    expect(log['level']).toEqual(1);
+    expect(log['formatter']).toBe(formatter);
+    expect(log['transports']).toBe(transports);
+  });
+});
 
 describe('Logger constructor', () => {
   test('ログオプションを指定しなかった場合の検証', () => {
@@ -85,6 +107,16 @@ describe('Logger isLevelEnabled', () => {
     expect(mockInfo).toHaveBeenCalledTimes(0);
     expect(mockWarn).toHaveBeenCalledTimes(0);
     expect(mockError).toHaveBeenCalledTimes(1);
+  });
+
+  test('ログレベルをmuteにした場合の検証', () => {
+    const log = new Logger({level: 'mute', transports: [transport]});
+    logAllMethod(log);
+    expect(mockTrace).toHaveBeenCalledTimes(0);
+    expect(mockDebug).toHaveBeenCalledTimes(0);
+    expect(mockInfo).toHaveBeenCalledTimes(0);
+    expect(mockWarn).toHaveBeenCalledTimes(0);
+    expect(mockError).toHaveBeenCalledTimes(0);
   });
 
   test('ログレベルを途中で変更した場合の検証', () => {
@@ -195,5 +227,7 @@ describe('Logger transport message and errorCode', () => {
     const error = new Error('errorLog');
     log.error(error, 'err0001');
     expect(mockConsoleError).toHaveBeenCalledWith(error, 'err0001');
+    log.error(error);
+    expect(mockConsoleError).toHaveBeenCalledWith(error, 'UnexpectedError');
   });
 });
