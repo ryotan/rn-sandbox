@@ -25,7 +25,7 @@ interface Transport {
 }
 
 interface TransportMethod {
-  (level: LogLevel, message: string | Error, errorCode?: string): void;
+  (level: Exclude<LogLevel, 'mute'>, message: string | Error, errorCode?: string): void;
 }
 
 interface LeveledTransportMethod {

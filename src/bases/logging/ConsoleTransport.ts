@@ -26,7 +26,7 @@ const ConsoleMethod = Object.freeze({
   warn: () => console.warn,
   error: () => console.error,
 
-  for(level: LogLevel) {
+  for(level: Exclude<LogLevel, 'mute'>) {
     return this[level]();
   },
 });
@@ -40,7 +40,7 @@ class ConsoleTransport implements Transport {
    * @param level ログレベル
    * @param messageOrError 出力するメッセージ、またはエラー
    */
-  log(level: LogLevel, messageOrError: string | Error) {
+  log(level: Exclude<LogLevel, 'mute'>, messageOrError: string | Error) {
     const log = ConsoleMethod.for(level);
     log(messageOrError);
   }
@@ -80,10 +80,10 @@ class ConsoleTransport implements Transport {
   /**
    * {@link console.error}にログを出力します。
    * @param error エラー
-   * @param errorCode エラーコード
+   * @param _ エラーコード（コンソール出力には使用しません）
    */
-  error(error: Error, errorCode: string) {
-    this.log('error', error);
+  error(error: Error, _: string) {
+    this.log(`error`, error);
   }
 }
 
