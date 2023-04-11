@@ -31,5 +31,5 @@ export class ErrorWithErrorCode extends ErrorWrapper {
   }
 }
 
-export const isErrorWithErrorCode = (error: unknown): error is ErrorWithErrorCode =>
+export const isErrorWithErrorCode = (error?: unknown): error is ErrorWithErrorCode =>
   error != null && typeof error === 'object' && error instanceof ErrorWithErrorCode;
