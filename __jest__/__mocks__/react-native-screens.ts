@@ -1,4 +1,4 @@
-const View = require('react-native').View;
+import {View} from 'react-native';
 
 export const enableScreens = jest.fn();
 export const screensEnabled = jest.fn(() => true);
