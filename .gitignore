@@ -60,8 +60,7 @@ web-build/
 *.tsbuildinfo
 
 # Jest
-jest-junit.xml
-/coverage
+__jest__/reports/
 
 # Bundler
 .bundle/
