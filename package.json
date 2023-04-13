@@ -105,7 +105,7 @@
     "classNameTemplate": "{classname}",
     "titleTemplate": "{title}",
     "ancestorSeparator": " › ",
-    "outputDirectory": "jest/reports/",
+    "outputDirectory": "__jest__/reports/",
     "outputName": "jest-junit.xml"
   },
   "private": true
