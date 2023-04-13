@@ -38,4 +38,10 @@ const projects = presets.map(({preset, snapshotResolver}) => {
   return preset;
 });
 
-module.exports = {projects, watchPlugins: getWatchPlugins({projects})};
+module.exports = {
+  projects,
+  watchPlugins: getWatchPlugins({projects}),
+  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  coverageDirectory: `./jest/reports/`,
+  coverageReporters: ['lcov', 'text', 'text-summary'],
+};
