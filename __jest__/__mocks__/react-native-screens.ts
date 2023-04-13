@@ -1,16 +1,12 @@
-import {View} from 'react-native';
-
+export const enableFreeze = jest.fn();
 export const enableScreens = jest.fn();
 export const screensEnabled = jest.fn(() => true);
-export const ScreenContainer = View;
-export const Screen = View;
-export const NativeScreen = View;
-export const NativeScreenContainer = View;
-export const ScreenStack = View;
-export const ScreenStackHeaderConfig = View;
-export const ScreenStackHeaderSubview = View;
-export const ScreenStackHeaderRightView = View;
-export const ScreenStackHeaderLeftView = View;
-export const ScreenStackHeaderTitleView = View;
-export const ScreenStackHeaderCenterView = View;
-export const FullWindowOverlay = View;
+// expo-secure-storeのすべてのNamed Exportを列挙するのは大変なので、
+// ES6のexport/import形式ではなく、module.exportsを使ってexportする。
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+module.exports = {
+  ...jest.requireActual('react-native-screens'),
+  enableScreens,
+  enableFreeze,
+  screensEnabled,
+};
