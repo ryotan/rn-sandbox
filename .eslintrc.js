@@ -37,22 +37,6 @@ module.exports = {
         // https://github.com/gund/eslint-plugin-deprecation
         'deprecation',
       ],
-      rules: {
-        'deprecation/deprecation': 'error',
-        // Consistent type usage
-        // https://typescript-eslint.io/rules/consistent-type-definitions
-        '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-        // https://typescript-eslint.io/rules/consistent-type-exports
-        '@typescript-eslint/consistent-type-exports': 'error',
-        // https://typescript-eslint.io/rules/consistent-type-imports
-        '@typescript-eslint/consistent-type-imports': 'error',
-      },
-      parserOptions: {
-        project: './tsconfig.json',
-      },
-    },
-    {
-      files: ['*.ts', '*.tsx', '*.d.ts'],
       extends: [
         // https://github.com/expo/expo/tree/master/packages/eslint-config-universe
         'universe/shared/typescript-analysis',
@@ -61,6 +45,31 @@ module.exports = {
       ],
       parserOptions: {
         project: './tsconfig.json',
+      },
+      rules: {
+        // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/ban-types.md
+        '@typescript-eslint/ban-types': [
+          'error',
+          {
+            types: {
+              // By default, the rule treats `{}` as being equivalent to `object`.
+              // However, this is not entirely accurate, as `{}` actually represents any type except for `null` or `undefined`.
+              // As a result, `{}` is not interchangeable with `object`.
+              // For instance, the code `const c: {} = 1` is valid, but `const c: object = 1` is not.
+              '{}': false,
+            },
+            extendDefaults: true,
+          },
+        ],
+        // Consistent type usage
+        // https://typescript-eslint.io/rules/consistent-type-definitions
+        '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+        // https://typescript-eslint.io/rules/consistent-type-exports
+        '@typescript-eslint/consistent-type-exports': 'error',
+        // https://typescript-eslint.io/rules/consistent-type-imports
+        '@typescript-eslint/consistent-type-imports': 'error',
+        // Deprecated API usage
+        'deprecation/deprecation': 'error',
       },
     },
     {
