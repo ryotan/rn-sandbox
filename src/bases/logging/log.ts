@@ -22,4 +22,4 @@ const setLogger = (l: Logger) => {
   log = l;
 };
 
-export {log, setLogger, createLogger};
+export {log, setLogger};
