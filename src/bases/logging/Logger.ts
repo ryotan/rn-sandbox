@@ -46,6 +46,19 @@ class Logger {
   }
 
   /**
+   * 指定されたログレベルで、{@link Transport}のメソッドを呼び出します。
+   *
+   * @param level ログレベル
+   * @param message 出力したいメッセージ
+   */
+  private callLeveledTransportMethod(level: Exclude<LogLevel, 'mute' | 'error'>, message: string | LogMessageSupplier) {
+    if (this.isLevelEnabled(level)) {
+      const formatted = this.formatMessage(level, message);
+      this.transports.forEach(t => t[level](formatted));
+    }
+  }
+
+  /**
    * ログレベルを設定します。
    * @param level ログレベル
    * @returns ロガーインスタンス
@@ -61,10 +74,7 @@ class Logger {
    * @returns ロガーインスタンス
    */
   trace(message: string | LogMessageSupplier): Logger {
-    if (this.isLevelEnabled('trace')) {
-      const formatted = this.formatMessage('trace', message);
-      this.transports.forEach(t => t.trace(formatted));
-    }
+    this.callLeveledTransportMethod('trace', message);
     return this;
   }
 
@@ -74,10 +84,7 @@ class Logger {
    * @returns ロガーインスタンス
    */
   debug(message: string | LogMessageSupplier): Logger {
-    if (this.isLevelEnabled('debug')) {
-      const formatted = this.formatMessage('debug', message);
-      this.transports.forEach(t => t.debug(formatted));
-    }
+    this.callLeveledTransportMethod('debug', message);
     return this;
   }
 
@@ -87,10 +94,7 @@ class Logger {
    * @returns ロガーインスタンス
    */
   info(message: string | LogMessageSupplier): Logger {
-    if (this.isLevelEnabled('info')) {
-      const formatted = this.formatMessage('info', message);
-      this.transports.forEach(t => t.info(formatted));
-    }
+    this.callLeveledTransportMethod('info', message);
     return this;
   }
 
@@ -100,10 +104,7 @@ class Logger {
    * @returns ロガーインスタンス
    */
   warn(message: string | LogMessageSupplier): Logger {
-    if (this.isLevelEnabled('warn')) {
-      const formatted = this.formatMessage('warn', message);
-      this.transports.forEach(t => t.warn(formatted));
-    }
+    this.callLeveledTransportMethod('warn', message);
     return this;
   }
 

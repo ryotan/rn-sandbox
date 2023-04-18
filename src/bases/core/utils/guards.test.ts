@@ -1,4 +1,4 @@
-import {ApplicationError, ErrorWithErrorCode, ErrorWrapper, RuntimeError} from '@bases/core/errors';
+import {ApplicationError, RuntimeError} from '@bases/core/errors';
 
 import {assertDefined, assertInstanceOf, AssertionError, isAssertionError, isDefined, isInstanceOf} from './guards';
 
@@ -182,7 +182,6 @@ describe('isInstanceOf', () => {
     {value: 10n, constructor: BigInt},
     {value: BigInt(10), constructor: BigInt},
     {value: new ApplicationError(), constructor: RuntimeError},
-    {value: new ErrorWithErrorCode(), constructor: AssertionError},
   ])('should return false if value is not instance of the class', ({value, constructor}) => {
     // @ts-expect-error -- 型エラーになったとしても、実行時には期待したとおりに検証されることを確認したいので抑止します
     const guard = isInstanceOf(constructor);
@@ -207,6 +206,6 @@ describe('isAssertionError', () => {
 
   it('should return false if value is not instance of AssertionError', () => {
     expect(isAssertionError(new Error('any message'))).toStrictEqual(false);
-    expect(isAssertionError(new ErrorWrapper('any message'))).toStrictEqual(false);
+    expect(isAssertionError(new RuntimeError('any message'))).toStrictEqual(false);
   });
 });

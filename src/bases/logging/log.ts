@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {assertInstanceOf, isInstanceOf} from '@bases/core/utils';
+import type {Logger} from './Logger';
+import {createLogger} from './Logger';
 
-import {ErrorWithErrorCode} from './ErrorWithErrorCode';
+let log = createLogger({level: 'trace'});
 
-export class ApplicationError extends ErrorWithErrorCode {}
+const setLogger = (l: Logger) => {
+  log = l;
+};
 
-export const isApplicationError = isInstanceOf(ApplicationError);
-export const assertApplicationError = assertInstanceOf(ApplicationError);
+export {log, setLogger};
