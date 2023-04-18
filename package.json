@@ -16,6 +16,9 @@
     "lint:tsc": "tsc --noEmit",
     "fix": "run-s --print-name --continue-on-error fix:*",
     "fix:es": "eslint --ignore-path .gitignore --fix --ext .jsx,.js,.tsx,.ts .",
+    "barrels": "run-s barrels:clean barrels:generate",
+    "barrels:clean": "rimraf -v --glob -- src/**/index.ts",
+    "barrels:generate": "npx barrelsby -c .barrelsby.json",
     "postinstall": "run-s postinstall:*",
     "postinstall:patch-package": "patch-package"
   },
