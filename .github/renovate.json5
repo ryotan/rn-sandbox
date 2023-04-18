@@ -143,6 +143,7 @@
         '@tanstack/eslint-plugin-query',
         '@typescript-eslint/eslint-plugin',
         '@typescript-eslint/parser',
+        'barrelsby',
         'cross-env',
         'hygen',
         'jest-junit',

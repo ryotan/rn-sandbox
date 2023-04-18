@@ -1,0 +1,15 @@
+{
+  "directory": ["src/bases"],
+  "include": ["\\.tsx?$"],
+  "exclude": [
+    "index\\.tsx?$",
+    "\\.test\\.tsx?",
+    "src/bases/core/errors/ErrorWithErrorCode\\.ts$",
+    "src/bases/core/errors/ErrorWrapper\\.ts$",
+    "src/bases/message/BundledMessages\\.ts$"
+  ],
+  "location": "below",
+  "local": false,
+  "singleQuotes": true,
+  "noHeader": true
+}
