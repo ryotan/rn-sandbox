@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {handleError} from '@bases/core/errors/handleError';
+import {handleError, RuntimeError} from '@bases/core';
 
 import type {MessageKey} from './BundledMessages';
-import {RuntimeError} from '../core/errors/RuntimeError';
 
 /**
  * メッセージをロードします。
