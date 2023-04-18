@@ -145,6 +145,7 @@
         '@typescript-eslint/parser',
         'barrelsby',
         'cross-env',
+        'husky',
         'hygen',
         'jest-junit',
         'ncp',
