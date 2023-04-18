@@ -8,8 +8,8 @@
     "src/bases/core/errors/ErrorWrapper\\.ts$",
     "src/bases/message/BundledMessages\\.ts$"
   ],
-  "location": "below",
-  "local": false,
+  "location": "all",
+  "local": true,
   "singleQuotes": true,
   "noHeader": true
 }

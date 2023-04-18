@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {handleError, RuntimeError} from '@bases/core';
+import {handleError, RuntimeError} from '@bases/core/errors';
 
 import type {MessageKey} from './BundledMessages';
 

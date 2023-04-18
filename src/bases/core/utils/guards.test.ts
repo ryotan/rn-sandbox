@@ -1,4 +1,4 @@
-import {ApplicationError, RuntimeError} from '@bases/core';
+import {ApplicationError, RuntimeError} from '@bases/core/errors';
 
 import {assertDefined, assertInstanceOf, AssertionError, isAssertionError, isDefined, isInstanceOf} from './guards';
 
