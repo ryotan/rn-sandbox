@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {assertInstanceOf, isInstanceOf} from '@bases/core/utils';
+
 import {ErrorWithErrorCode} from './ErrorWithErrorCode';
 
 export class ApplicationError extends ErrorWithErrorCode {}
 
-export function isApplicationError(error?: unknown): error is ApplicationError {
-  return error != null && typeof error === 'object' && error instanceof ApplicationError;
-}
+export const isApplicationError = isInstanceOf(ApplicationError);
+export const assertApplicationError = assertInstanceOf(ApplicationError);

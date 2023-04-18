@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {assertInstanceOf, isInstanceOf} from '@bases/core/utils';
+
 import {ErrorWrapper} from './ErrorWrapper';
 
 export class ErrorWithErrorCode extends ErrorWrapper {
@@ -46,5 +48,5 @@ export class ErrorWithErrorCode extends ErrorWrapper {
   }
 }
 
-export const isErrorWithErrorCode = (error?: unknown): error is ErrorWithErrorCode =>
-  error != null && typeof error === 'object' && error instanceof ErrorWithErrorCode;
+export const isErrorWithErrorCode = isInstanceOf(ErrorWithErrorCode);
+export const assertErrorWithErrorCode = assertInstanceOf(ErrorWithErrorCode);
