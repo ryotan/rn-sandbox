@@ -22,6 +22,7 @@
 //   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //   THE SOFTWARE.
+import {isDefined} from '@bases/core/utils';
 
 export class ErrorWrapper extends Error {
   constructor();
@@ -35,12 +36,9 @@ export class ErrorWrapper extends Error {
       super();
     }
 
-    let errorToWrap;
     if (messageOrCause instanceof Error) {
-      errorToWrap = messageOrCause;
       this._cause = messageOrCause;
     } else if (cause instanceof Error) {
-      errorToWrap = cause;
       this._cause = cause;
     }
 
@@ -52,8 +50,9 @@ export class ErrorWrapper extends Error {
       writable: true,
     });
 
-    const stackTraceSoFar = errorToWrap ? errorToWrap.stack : undefined;
+    const stackTraceSoFar = this._cause?.stack;
 
+    /* istanbul ignore else -- Can't emulate the environment where Error.captureStackTrace does not exist */
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);
     }
@@ -68,23 +67,18 @@ export class ErrorWrapper extends Error {
 }
 
 // Helper function to merge stack traces
-const mergeStackTrace = (stackTraceToMerge?: string, baseStackTrace?: string) => {
-  if (!baseStackTrace) {
+export const mergeStackTrace = (stackTraceToMerge?: string, baseStackTrace?: string) => {
+  if (baseStackTrace == null) {
     return stackTraceToMerge;
   }
+  const prefixedBaseStacktrace = `Caused by: ${baseStackTrace}`;
+  if (stackTraceToMerge == null) {
+    return prefixedBaseStacktrace;
+  }
 
-  const entriesToMerge = stackTraceToMerge?.split('\n');
-  const baseEntries = baseStackTrace.split('\n');
-
-  const newEntries: string[] = [];
-
-  entriesToMerge?.forEach(entry => {
-    if (baseEntries.includes(entry)) {
-      return;
-    }
-
-    newEntries.push(entry);
-  });
+  const entriesToMerge = stackTraceToMerge.split('\n');
+  const baseEntries = prefixedBaseStacktrace.split('\n');
+  const newEntries = entriesToMerge.map(entry => (baseEntries.includes(entry) ? undefined : entry)).filter(isDefined);
 
   return [...newEntries, ...baseEntries].join('\n');
 };
