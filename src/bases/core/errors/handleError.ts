@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-let handleError = (error: unknown) => console.log(String(error));
+let handleError = (error: unknown) => {
+  if (error instanceof Error) {
+    console.error(error.stack);
+  } else {
+    console.error(String(error));
+  }
+};
 
 const setHandleError = (e: (error: unknown) => void) => {
   handleError = e;
