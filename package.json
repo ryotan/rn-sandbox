@@ -29,6 +29,9 @@
     "barrels": "run-s barrels:clean barrels:generate",
     "barrels:clean": "rimraf -v --glob -- src/**/index.ts",
     "barrels:generate": "npx barrelsby -c .barrelsby.json",
+    "bundle-install": "bundle install",
+    "setup:mac": "npm run bundle-install && npm clean-install && npm run pod-install",
+    "setup:mac:clean": "run-s clean-all setup:mac",
     "postinstall": "run-s postinstall:*",
     "postinstall:patch-package": "patch-package",
     "prepare": "husky install"
