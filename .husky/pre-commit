@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run barrels
+if [ -d "node_modules" ] && npx --no barrelsby --version; then
+  npm run barrels
+fi
