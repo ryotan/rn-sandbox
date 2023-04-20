@@ -17,6 +17,7 @@ module.exports = {
           '**/*.spec.*',
           'jest/**',
           '.eslintrc.js',
+          '.hygen.js',
           'babel.config.js',
           'jest.config.js',
           'metro.config.js',
@@ -99,7 +100,7 @@ module.exports = {
       },
     },
     {
-      files: ['.eslintrc.js', 'babel.config.js', 'jest.config.js', 'metro.config.js', 'jest/**'],
+      files: ['.eslintrc.js', '.hygen.js', 'babel.config.js', 'jest.config.js', 'metro.config.js', 'jest/**'],
       globals: {
         __dirname: 'readonly',
       },
@@ -108,5 +109,5 @@ module.exports = {
       },
     },
   ],
-  ignorePatterns: ['node_modules/', 'dist/', '!.eslintrc.js', '!.prettierrc.js'],
+  ignorePatterns: ['node_modules/', 'dist/', '!.eslintrc.js', '!.hygen.js', '!.prettierrc.js'],
 };
