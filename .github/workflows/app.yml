@@ -1,0 +1,120 @@
+name: App
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - '**/*.js'
+      - '**/*.jsx'
+      - '**/*.ts'
+      - '**/*.tsx'
+      - __jest__/**
+      - android/**
+      - assets/**
+      - ios/**
+      - src/**
+      - .barrelsby.json
+      - .editorconfig
+      - .eslintrc.js
+      - .prettierrc.js
+      - .tool-versions
+      - app.config.js
+      - babel.config.js
+      - index.js
+      - jest.config.js
+      - metro.config.js
+      - package.json
+      - package-lock.json
+      - tsconfig.json
+      - .github/workflows/app.yaml
+      - .github/workflows/report.yaml
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  lint-and-test:
+    name: Lints, Tests
+    # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-12-Readme.md
+    runs-on: macos-12
+    env:
+      REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
+
+      - name: Cache asdf
+        uses: actions/cache@v3
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-${{ '**/.tool-versions' }}
+          restore-keys: ${{ runner.os }}-asdf-
+
+      - name: Install tools
+        uses: asdf-vm/actions/install@v2
+
+      # Cache '.npm' to speed up clean-install when package-lock.json is updated.
+      # Loosened up the restore-keys a bit, as it doesn't have to match the contents of package-lock.json exactly.
+      - name: Cache .npm
+        id: cache-npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          # If cache is corrupted, increment prefixed number.
+          key: 1-${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: 1-${{ runner.os }}-npm-
+
+      # If package-lock.json matches, node_modules will also match.
+      # So, cache node_modules directly to skip install step.
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          # If cache is corrupted, increment prefixed number.
+          key: 1-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm clean-install 2>&1 | tee /dev/stderr | test $(grep --count -E '(Error:|gyp ERR!)') -le 0
+
+      - name: Set up reviewdog
+        uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
+      - name: Lint (ESLint)
+        run: npm run -s lint:es -- -f eslint-formatter-rdjson | reviewdog -tee -fail-on-error -reporter=github-check -filter-mode=nofilter -f=rdjson -name="ESLint"
+
+      - name: Lint (TypeScript)
+        if: always()
+        run: npm run -s lint:tsc | reviewdog -tee -fail-on-error -reporter=github-check -filter-mode=nofilter -f=tsc -name="TypeScript"
+
+      - name: Test
+        if: always()
+        run: npm run test:ci
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: __jest__/reports
+          verbose: true
+
+      - name: Archive workflow results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: workflow-results
+          path: __jest__/reports
