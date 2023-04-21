@@ -30,8 +30,8 @@ on:
       - package.json
       - package-lock.json
       - tsconfig.json
-      - .github/workflows/app.yaml
-      - .github/workflows/report.yaml
+      - .github/workflows/app.yml
+      - .github/workflows/report.yml
     types:
       - opened
       - synchronize
