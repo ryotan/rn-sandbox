@@ -58,8 +58,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-${{ '**/.tool-versions' }}
-          restore-keys: ${{ runner.os }}-asdf-
+          key: 1-${{ runner.os }}-asdf-${{ hashFiles('**/.tool-versions') }}
+          restore-keys: 1-${{ runner.os }}-asdf-
 
       - name: Install tools
         uses: asdf-vm/actions/install@v2
