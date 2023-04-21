@@ -22,8 +22,6 @@
 //   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //   THE SOFTWARE.
-import {isDefined} from '@bases/core/utils';
-
 export class ErrorWrapper extends Error {
   constructor();
   constructor(cause: unknown);
@@ -78,7 +76,9 @@ export const mergeStackTrace = (stackTraceToMerge?: string, baseStackTrace?: str
 
   const entriesToMerge = stackTraceToMerge.split('\n');
   const baseEntries = prefixedBaseStacktrace.split('\n');
-  const newEntries = entriesToMerge.map(entry => (baseEntries.includes(entry) ? undefined : entry)).filter(isDefined);
+  const newEntries = entriesToMerge
+    .map(entry => (baseEntries.includes(entry) ? undefined : entry))
+    .filter((item): item is NonNullable<string> => item != null);
 
   return [...newEntries, ...baseEntries].join('\n');
 };
