@@ -5,9 +5,11 @@
  * `assertXXX`では何らかの固有のエラーを投げたいのですが、`@base/core/errors`に依存すると循環参照になってしまうので、仕方なくここに定義しています。
  */
 
+import {ErrorWrapper} from '@bases/core/errors/ErrorWrapper';
+
 import type {AbstractConstructor} from './types';
 
-export class AssertionError extends Error {}
+export class AssertionError extends ErrorWrapper {}
 export const isAssertionError = (object: unknown): object is AssertionError => object instanceof AssertionError;
 
 export const isDefined = <T>(value: T): value is NonNullable<T> => value != null;
