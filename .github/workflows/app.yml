@@ -104,7 +104,7 @@ jobs:
 
       - name: Test & Publish code coverage
         if: always()
-        uses: paambaati/codeclimate-action@v2.2.4
+        uses: paambaati/codeclimate-action@v3.2.0
         with:
           coverageCommand: npm run test:ci
           coverageLocations: __jest__/reports/lcov.info:lcov
