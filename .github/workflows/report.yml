@@ -19,5 +19,5 @@ jobs:
           name: Jest results
           token: ${{ secrets.GITHUB_TOKEN }}
           artifact: workflow-results
-          path: __jest__/reports/jest-junit.xml
+          path: jest-junit.xml
           reporter: jest-junit
