@@ -43,7 +43,6 @@ jobs:
     # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-12-Readme.md
     runs-on: macos-12
     env:
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
@@ -62,7 +61,7 @@ jobs:
           key: ${{ runner.os }}-asdf-${{ '**/.tool-versions' }}
           restore-keys: ${{ runner.os }}-asdf-
 
-      - name: Install asdf & tools
+      - name: Install tools
         uses: asdf-vm/actions/install@v2
 
       # Cache '.npm' to speed up clean-install when package-lock.json is updated.
@@ -105,6 +104,8 @@ jobs:
       - name: Test & Publish code coverage
         if: always()
         uses: paambaati/codeclimate-action@v3.2.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: npm run test:ci
           coverageLocations: __jest__/reports/lcov.info:lcov
