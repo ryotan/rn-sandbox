@@ -6,32 +6,32 @@ const mustDefined = (_: {}) => {};
 
 const complexUnion = () => {
   const random = Math.random();
-  if (random > 0.2) {
-    return random > 2.5;
-  } else if (random > 0.3) {
-    return 0;
-  } else if (random > 0.4) {
-    return 'a';
+  if (random > 0.8) {
+    return null;
   } else if (random > 0.6) {
     return {string: 'a'} as const;
-  } else if (random > 0.8) {
-    return null;
+  } else if (random > 0.4) {
+    return 'a';
+  } else if (random > 0.3) {
+    return 0;
+  } else if (random > 0.2) {
+    return random > 2.5;
   }
   return undefined;
 };
 
 const stringUnion = () => {
   const random = Math.random();
-  if (random > 0.2) {
-    return '0.2' as const;
-  } else if (random > 0.3) {
-    return '0.3' as const;
-  } else if (random > 0.4) {
-    return '0.4' as const;
+  if (random > 0.8) {
+    return null;
   } else if (random > 0.6) {
     return '0.6' as const;
-  } else if (random > 0.8) {
-    return null;
+  } else if (random > 0.4) {
+    return '0.4' as const;
+  } else if (random > 0.3) {
+    return '0.3' as const;
+  } else if (random > 0.2) {
+    return '0.2' as const;
   }
   return undefined;
 };
@@ -138,6 +138,7 @@ describe('isDefined', () => {
 
   it('should report type error for complex inferred type until TypeScript 5.0', () => {
     new Array(10)
+      .fill(undefined)
       .map(complexUnion)
       .filter(isDefined)
       .forEach(v => {
