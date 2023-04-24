@@ -12,6 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------------
+ *
+ * The following changes have been made to the original source code:
+ * * Add test calling Snackbar.show/showWithCloseButton/hide before Snackbar is mounted.
+ *
+ * These modifications are provided under the CC0-1.0 license, which can be reviewed at the following URL:
+ * https://creativecommons.org/publicdomain/zero/1.0/deed.en
  */
 import {act, render, screen} from '@testing-library/react-native';
 import React, {useEffect} from 'react';
@@ -32,11 +40,7 @@ function getStyle<T>(instance: ReactTestInstance) {
   return instance.props.style as T;
 }
 
-jest.useFakeTimers();
-
-type UseSnackbarType = 'show' | 'showWithCloseButton' | 'hide';
-
-const ChildComponent: React.FC<{type: UseSnackbarType}> = ({type}) => {
+const ChildComponent: React.FC<{type: 'show' | 'showWithCloseButton' | 'hide'}> = ({type}) => {
   useEffect(() => {
     switch (type) {
       case 'show':
@@ -53,12 +57,25 @@ const ChildComponent: React.FC<{type: UseSnackbarType}> = ({type}) => {
   return <Text testID="text">test</Text>;
 };
 
+jest.useFakeTimers();
 describe('Snackbar', () => {
+  describe('コンポーネントマウント前', () => {
+    test('show', () => {
+      expect(() => Snackbar.show('テストメッセージ')).toThrow('Snackbar.Component is not mounted');
+    });
+    test('showWithCloseButton', () => {
+      expect(() => Snackbar.showWithCloseButton('テストメッセージ')).toThrow('Snackbar.Component is not mounted');
+    });
+    test('hide', () => {
+      expect(() => Snackbar.hide()).toThrow('Snackbar.Component is not mounted');
+    });
+  });
+
   it('Snackbarのshowで、Snackbarが正常に表示されることを確認', () => {
     render(
       <>
         <ChildComponent type="show" />
-        <Snackbar.Component />
+        <Snackbar />
       </>,
     );
 
@@ -74,7 +91,7 @@ describe('Snackbar', () => {
     render(
       <>
         <ChildComponent type="showWithCloseButton" />
-        <Snackbar.Component />
+        <Snackbar />
       </>,
     );
 
@@ -88,14 +105,14 @@ describe('Snackbar', () => {
     render(
       <>
         <ChildComponent type="show" />
-        <Snackbar.Component />
+        <Snackbar />
       </>,
     );
 
     screen.update(
       <>
         <ChildComponent type="hide" />
-        <Snackbar.Component />
+        <Snackbar />
       </>,
     );
 

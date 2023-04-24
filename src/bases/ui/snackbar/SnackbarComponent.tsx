@@ -12,6 +12,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------------
+ *
+ * The following changes have been made to the original source code:
+ * * Extract `resetSnackbarProps`.
+ * * Make `callback` parameter of `animationStart` required.
+ *
+ * These modifications are provided under the CC0-1.0 license, which can be reviewed at the following URL:
+ * https://creativecommons.org/publicdomain/zero/1.0/deed.en
  */
 import React, {useCallback, useRef, useState} from 'react';
 import type {StyleProp, TextStyle, ViewStyle} from 'react-native';
@@ -92,19 +101,23 @@ export const SnackbarComponent: React.FC<SnackbarProps> = props => {
   const barrierFadeOutAnimationRef = useRef<CompositeAnimation>();
   const [visibleSnackbarProps, setVisibleSnackbarProps] = useState<SnackbarShowProps>();
 
+  const resetSnackbarProps = useCallback(() => {
+    if (!barrierFadeOutAnimationRef.current) {
+      setVisibleSnackbarProps(undefined);
+    }
+  }, []);
+
   const animationStart = useCallback(
     (
       animationRef: React.MutableRefObject<CompositeAnimation | undefined>,
       config: Animated.TimingAnimationConfig,
-      callback?: Animated.EndCallback,
+      callback: Animated.EndCallback,
     ) => {
       const animation = Animated.timing(fadeAnim, config);
       animationRef.current = animation;
       animation.start(result => {
         animationRef.current = undefined;
-        if (callback) {
-          callback(result);
-        }
+        callback(result);
       });
     },
     [fadeAnim],
@@ -140,14 +153,10 @@ export const SnackbarComponent: React.FC<SnackbarProps> = props => {
           useNativeDriver: true,
         };
         animationStart(fadeOutAnimationRef, fadeOutAnimationConfig, () => {
-          if (!barrierFadeOutAnimationRef.current) {
-            setVisibleSnackbarProps(undefined);
-          }
+          resetSnackbarProps();
         });
       } else {
-        if (!barrierFadeOutAnimationRef.current) {
-          setVisibleSnackbarProps(undefined);
-        }
+        resetSnackbarProps();
       }
     });
   }, [
@@ -164,6 +173,7 @@ export const SnackbarComponent: React.FC<SnackbarProps> = props => {
     props.positionStyle,
     props.style,
     props.timestamp,
+    resetSnackbarProps,
   ]);
 
   const forceFadeout = useCallback(
