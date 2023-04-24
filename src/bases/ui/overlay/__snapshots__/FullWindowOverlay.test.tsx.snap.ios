@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FullWindowOverlay 子要素を含めて正常にrenderできることを確認 1`] = `
+<RNSFullWindowOverlay
+  style={
+    {
+      "height": "100%",
+      "position": "absolute",
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    testID="text"
+  >
+    test
+  </Text>
+</RNSFullWindowOverlay>
+`;
