@@ -73,10 +73,6 @@ export const Snackbar: React.FC<{initialState?: SnackbarComponentShowProps}> & S
     },
   );
 
-  if (ref.current) {
-    console.log('Error!');
-  }
-
   useImperativeHandle(
     ref,
     () => ({
