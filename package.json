@@ -27,7 +27,7 @@
     "clean:jest": "rimraf __jest__/reports",
     "clean:pod": "rimraf ios/Pods",
     "barrels": "run-s barrels:clean barrels:generate",
-    "barrels:clean": "rimraf -v --glob -- src/**/index.ts",
+    "barrels:clean": "rimraf -v --glob -- 'src/bases/**/index.ts'",
     "barrels:generate": "npx barrelsby -c .barrelsby.json",
     "bundle-install": "bundle install",
     "setup:mac": "npm run bundle-install && npm clean-install && npm run pod-install",
