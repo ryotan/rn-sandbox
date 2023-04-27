@@ -16,6 +16,7 @@ const projects = presets.map(({preset, snapshotResolver}) => {
     `./${jestRoot}/setup/react-native.js`,
     `./${jestRoot}/setup/react-native-gesture-handler.js`,
     `./${jestRoot}/setup/react-native-safe-area-context.js`,
+    `./${jestRoot}/setup/@react-native-community/netinfo.js`,
   ];
   preset.setupFilesAfterEnv = [
     ...(preset.setupFilesAfterEnv ?? []),
