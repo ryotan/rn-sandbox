@@ -1,5 +1,5 @@
 import {rest} from 'msw';
-import {setupServer} from 'msw/node';
+import {setupServer} from 'msw/native';
 
 import {sleep} from '@bases/core/utils';
 
