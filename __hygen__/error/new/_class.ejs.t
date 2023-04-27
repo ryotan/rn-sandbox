@@ -9,4 +9,5 @@ import {assertInstanceOf, isInstanceOf} from '@bases/core/utils';
 export class <%= klass %> extends <%= parent %> {}
 
 export const is<%= klass %> = isInstanceOf(<%= klass %>);
-export const assert<%= klass %> = assertInstanceOf(<%= klass %>);
+export const assert<%= klass %>: (error: unknown, name?: string) => asserts error is <%= klass %> =
+  assertInstanceOf(<%= klass %>);

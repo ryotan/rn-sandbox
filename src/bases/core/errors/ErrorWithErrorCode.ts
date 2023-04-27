@@ -49,4 +49,5 @@ export class ErrorWithErrorCode extends ErrorWrapper {
 }
 
 export const isErrorWithErrorCode = isInstanceOf(ErrorWithErrorCode);
-export const assertErrorWithErrorCode = assertInstanceOf(ErrorWithErrorCode);
+export const assertErrorWithErrorCode: (error: unknown, name?: string) => asserts error is ErrorWithErrorCode =
+  assertInstanceOf(ErrorWithErrorCode);

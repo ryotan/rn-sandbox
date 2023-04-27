@@ -20,4 +20,5 @@ import {ErrorWithErrorCode} from './ErrorWithErrorCode';
 export class RuntimeError extends ErrorWithErrorCode {}
 
 export const isRuntimeError = isInstanceOf(RuntimeError);
-export const assertRuntimeError = assertInstanceOf(RuntimeError);
+export const assertRuntimeError: (error: unknown, name?: string) => asserts error is RuntimeError =
+  assertInstanceOf(RuntimeError);

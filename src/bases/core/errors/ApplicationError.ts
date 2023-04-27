@@ -20,4 +20,5 @@ import {ErrorWithErrorCode} from './ErrorWithErrorCode';
 export class ApplicationError extends ErrorWithErrorCode {}
 
 export const isApplicationError = isInstanceOf(ApplicationError);
-export const assertApplicationError = assertInstanceOf(ApplicationError);
+export const assertApplicationError: (error: unknown, name?: string) => asserts error is ApplicationError =
+  assertInstanceOf(ApplicationError);
