@@ -10,8 +10,8 @@ const handlers = (baseUrl: string) => [
   rest.post(`${baseUrl}/post`, (req, res, ctx) => {
     return res(ctx.status(200));
   }),
-  rest.all(`${baseUrl}/delay/:delay`, (req, res, ctx) => {
-    return sleep(Number(req.params.delay)).then(() => res(ctx.status(200)));
+  rest.all(`${baseUrl}/delay/:delay`, async (req, res, ctx) => {
+    return sleep(Number(req.params.delay), () => res(ctx.status(200)));
   }),
   rest.all(`${baseUrl}/status/:status`, (req, res, ctx) => {
     return res(ctx.status(Number(req.params.status)));
