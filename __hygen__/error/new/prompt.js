@@ -3,7 +3,6 @@
 //
 module.exports = {
   prompt: ({prompter, args}) => {
-    console.dir(args);
     return prompter.prompt([
       args.feature ?? {
         type: 'input',
