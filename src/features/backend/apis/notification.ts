@@ -8,15 +8,15 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {Notification} from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * お知らせの一覧を取得します。
  * @summary お知らせ一覧取得
  */
 export const getListNotifications = (signal?: AbortSignal) => {
-  return backendCustomInstance<Notification[]>({url: `/notifications`, method: 'get', signal});
+  return httpCall<Notification[]>({url: `/notifications`, method: 'get', signal});
 };
 
 export const getGetListNotificationsQueryKey = () => [`/notifications`] as const;

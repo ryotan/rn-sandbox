@@ -15,15 +15,15 @@ import type {
   QueryKey,
 } from '@tanstack/react-query';
 import type {Event, BadRequestResponse, GetEventsParams, EventContent, EventRegistration} from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * 掲載期間中のイベントまたは全イベントの一覧を取得します。
  * @summary イベント一覧取得
  */
 export const getEvents = (params: GetEventsParams, signal?: AbortSignal) => {
-  return backendCustomInstance<Event[]>({url: `/events`, method: 'get', params, signal});
+  return httpCall<Event[]>({url: `/events`, method: 'get', params, signal});
 };
 
 export const getGetEventsQueryKey = (params: GetEventsParams) => [`/events`, ...(params ? [params] : [])] as const;
@@ -65,7 +65,7 @@ export const useGetEvents = <TData = Awaited<ReturnType<typeof getEvents>>, TErr
  * @summary イベント登録
  */
 export const postEvents = (eventRegistration: EventRegistration) => {
-  return backendCustomInstance<EventContent>({
+  return httpCall<EventContent>({
     url: `/events`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -103,7 +103,7 @@ export const usePostEvents = <TError = ErrorType<BadRequestResponse>, TContext =
  * @summary イベント取得
  */
 export const getEventsEventId = (eventId: string, signal?: AbortSignal) => {
-  return backendCustomInstance<Event>({url: `/events/${eventId}`, method: 'get', signal});
+  return httpCall<Event>({url: `/events/${eventId}`, method: 'get', signal});
 };
 
 export const getGetEventsEventIdQueryKey = (eventId: string) => [`/events/${eventId}`] as const;

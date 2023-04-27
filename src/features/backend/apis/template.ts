@@ -8,15 +8,15 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {Template} from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * 入力のテンプレート一覧を取得します。
  * @summary テンプレート一覧取得
  */
 export const getTemplates = (signal?: AbortSignal) => {
-  return backendCustomInstance<Template[]>({url: `/templates`, method: 'get', signal});
+  return httpCall<Template[]>({url: `/templates`, method: 'get', signal});
 };
 
 export const getGetTemplatesQueryKey = () => [`/templates`] as const;

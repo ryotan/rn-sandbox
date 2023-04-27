@@ -15,8 +15,8 @@ export default defineConfig({
           useQuery: true,
         },
         mutator: {
-          path: 'src/features/backend/utils/customInstance.ts',
-          name: 'backendCustomInstance',
+          path: 'src/features/backend/utils/httpCall.ts',
+          name: 'httpCall',
         },
       },
     },

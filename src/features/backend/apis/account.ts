@@ -30,8 +30,8 @@ import type {
   LikedEventResponse,
   LikedQuestionResponse,
 } from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 // https://stackoverflow.com/questions/49579094/typescript-conditional-types-filter-out-readonly-properties-pick-only-requir/49579497#49579497
 type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
@@ -56,7 +56,7 @@ type NonReadonly<T> = [T] extends [UnionToIntersection<T>]
  * @summary アカウントの登録
  */
 export const postSignup = (accountRegistration: AccountRegistration) => {
-  return backendCustomInstance<Account>({
+  return httpCall<Account>({
     url: `/signup`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -95,7 +95,7 @@ export const usePostSignup = <TError = ErrorType<BadRequestResponse>, TContext =
  * @summary ログインする
  */
 export const postLogin = (accountLogin: AccountLogin) => {
-  return backendCustomInstance<AccountLoginResponse>({
+  return httpCall<AccountLoginResponse>({
     url: `/login`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -139,7 +139,7 @@ export const usePostLogin = <
  * @summary ログアウトする
  */
 export const postLogout = () => {
-  return backendCustomInstance<void>({url: `/logout`, method: 'post'});
+  return httpCall<void>({url: `/logout`, method: 'post'});
 };
 
 export const getPostLogoutMutationOptions = <
@@ -179,7 +179,7 @@ export const usePostLogout = <
  * @summary アカウントの取得
  */
 export const getAccountsAccountId = (accountId: string, signal?: AbortSignal) => {
-  return backendCustomInstance<Account>({url: `/accounts/${accountId}`, method: 'get', signal});
+  return httpCall<Account>({url: `/accounts/${accountId}`, method: 'get', signal});
 };
 
 export const getGetAccountsAccountIdQueryKey = (accountId: string) => [`/accounts/${accountId}`] as const;
@@ -233,7 +233,7 @@ export const useGetAccountsAccountId = <
  * @summary アバターを取得する
  */
 export const getAccountsAccountIdAvatar = (accountId: string, signal?: AbortSignal) => {
-  return backendCustomInstance<AvatarImage>({url: `/accounts/${accountId}/avatar`, method: 'get', signal});
+  return httpCall<AvatarImage>({url: `/accounts/${accountId}/avatar`, method: 'get', signal});
 };
 
 export const getGetAccountsAccountIdAvatarQueryKey = (accountId: string) => [`/accounts/${accountId}/avatar`] as const;
@@ -280,7 +280,7 @@ export const useGetAccountsAccountIdAvatar = <
  * @summary ログイン済みアカウントの取得
  */
 export const getAccountsMe = (signal?: AbortSignal) => {
-  return backendCustomInstance<Account>({url: `/accounts/me`, method: 'get', signal});
+  return httpCall<Account>({url: `/accounts/me`, method: 'get', signal});
 };
 
 export const getGetAccountsMeQueryKey = () => [`/accounts/me`] as const;
@@ -331,7 +331,7 @@ export const useGetAccountsMe = <
  * @summary ログイン済みアカウントのアバターを取得する
  */
 export const getAccountsMeAvatar = (signal?: AbortSignal) => {
-  return backendCustomInstance<AvatarImage>({url: `/accounts/me/avatar`, method: 'get', signal});
+  return httpCall<AvatarImage>({url: `/accounts/me/avatar`, method: 'get', signal});
 };
 
 export const getGetAccountsMeAvatarQueryKey = () => [`/accounts/me/avatar`] as const;
@@ -381,7 +381,7 @@ export const putAccountsMeAvatar = (avatarImage: AvatarImage) => {
     formData.append('avatarImage', avatarImage.avatarImage);
   }
 
-  return backendCustomInstance<void>({
+  return httpCall<void>({
     url: `/accounts/me/avatar`,
     method: 'put',
     headers: {'Content-Type': 'multipart/form-data'},
@@ -420,7 +420,7 @@ export const usePutAccountsMeAvatar = <TError = ErrorType<unknown>, TContext = u
  * @summary ログイン済みアカウントのデバイス登録トークンの更新
  */
 export const postAccountsMeDeviceToken = (updateDeviceToken: UpdateDeviceToken) => {
-  return backendCustomInstance<void>({
+  return httpCall<void>({
     url: `/accounts/me/device-token`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -479,7 +479,7 @@ export const usePostAccountsMeDeviceToken = <TError = ErrorType<unknown>, TConte
  * @summary ログイン済みアカウントの利用規約同意状態確認
  */
 export const getAccountsMeTerms = (signal?: AbortSignal) => {
-  return backendCustomInstance<TermsOfServiceAgreementStatus>({url: `/accounts/me/terms`, method: 'get', signal});
+  return httpCall<TermsOfServiceAgreementStatus>({url: `/accounts/me/terms`, method: 'get', signal});
 };
 
 export const getGetAccountsMeTermsQueryKey = () => [`/accounts/me/terms`] as const;
@@ -524,7 +524,7 @@ export const useGetAccountsMeTerms = <
  * @summary ログイン済みアカウントの利用規約同意
  */
 export const postAccountsMeTerms = (termsOfServiceAgreementStatus: NonReadonly<TermsOfServiceAgreementStatus>) => {
-  return backendCustomInstance<TermsOfServiceAgreementStatus>({
+  return httpCall<TermsOfServiceAgreementStatus>({
     url: `/accounts/me/terms`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -592,7 +592,7 @@ export const usePostAccountsMeTerms = <TError = ErrorType<BadRequestResponse>, T
  * @summary ログイン済みアカウント削除
  */
 export const deleteAccountsMeDelete = (accountDeletion: AccountDeletion) => {
-  return backendCustomInstance<void>({
+  return httpCall<void>({
     url: `/accounts/me/delete`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -656,7 +656,7 @@ export const useDeleteAccountsMeDelete = <
  * @summary いいね済の取得
  */
 export const getAccountsMeLikes = (signal?: AbortSignal) => {
-  return backendCustomInstance<LikesResponse>({url: `/accounts/me/likes`, method: 'get', signal});
+  return httpCall<LikesResponse>({url: `/accounts/me/likes`, method: 'get', signal});
 };
 
 export const getGetAccountsMeLikesQueryKey = () => [`/accounts/me/likes`] as const;
@@ -700,7 +700,7 @@ export const useGetAccountsMeLikes = <
  * @summary いいねの実施（イベント）
  */
 export const putEventsEventIdLike = (eventId: string) => {
-  return backendCustomInstance<void>({url: `/accounts/me/likes/events/${eventId}`, method: 'put'});
+  return httpCall<void>({url: `/accounts/me/likes/events/${eventId}`, method: 'put'});
 };
 
 export const getPutEventsEventIdLikeMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
@@ -733,7 +733,7 @@ export const usePutEventsEventIdLike = <TError = ErrorType<unknown>, TContext = 
  * @summary いいねの取消（イベント）
  */
 export const deleteEventsEventIdLike = (eventId: string) => {
-  return backendCustomInstance<void>({url: `/accounts/me/likes/events/${eventId}`, method: 'delete'});
+  return httpCall<void>({url: `/accounts/me/likes/events/${eventId}`, method: 'delete'});
 };
 
 export const getDeleteEventsEventIdLikeMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
@@ -779,11 +779,7 @@ export const useDeleteEventsEventIdLike = <TError = ErrorType<unknown>, TContext
  * @summary いいね済の取得（イベント）
  */
 export const getAccountsMeLikesEventsEventId = (eventId: string, signal?: AbortSignal) => {
-  return backendCustomInstance<LikedEventResponse>({
-    url: `/accounts/me/likes/events/${eventId}`,
-    method: 'get',
-    signal,
-  });
+  return httpCall<LikedEventResponse>({url: `/accounts/me/likes/events/${eventId}`, method: 'get', signal});
 };
 
 export const getGetAccountsMeLikesEventsEventIdQueryKey = (eventId: string) =>
@@ -834,7 +830,7 @@ export const useGetAccountsMeLikesEventsEventId = <
  * @summary いいねの実施（質問）
  */
 export const putQuestionsQuestionIdLike = (questionId: string) => {
-  return backendCustomInstance<void>({url: `/accounts/me/likes/questions/${questionId}`, method: 'put'});
+  return httpCall<void>({url: `/accounts/me/likes/questions/${questionId}`, method: 'put'});
 };
 
 export const getPutQuestionsQuestionIdLikeMutationOptions = <
@@ -890,7 +886,7 @@ export const usePutQuestionsQuestionIdLike = <TError = ErrorType<unknown>, TCont
  * @summary いいねの取消（質問）
  */
 export const deleteQuestionsQuestionIdLike = (questionId: string) => {
-  return backendCustomInstance<void>({url: `/accounts/me/likes/questions/${questionId}`, method: 'delete'});
+  return httpCall<void>({url: `/accounts/me/likes/questions/${questionId}`, method: 'delete'});
 };
 
 export const getDeleteQuestionsQuestionIdLikeMutationOptions = <
@@ -946,11 +942,7 @@ export const useDeleteQuestionsQuestionIdLike = <TError = ErrorType<unknown>, TC
  * @summary いいね済の取得（質問）
  */
 export const getAccountsMeLikesQuestionsQuestionId = (questionId: string, signal?: AbortSignal) => {
-  return backendCustomInstance<LikedQuestionResponse>({
-    url: `/accounts/me/likes/questions/${questionId}`,
-    method: 'get',
-    signal,
-  });
+  return httpCall<LikedQuestionResponse>({url: `/accounts/me/likes/questions/${questionId}`, method: 'get', signal});
 };
 
 export const getGetAccountsMeLikesQuestionsQuestionIdQueryKey = (questionId: string) =>
@@ -1001,10 +993,7 @@ export const useGetAccountsMeLikesQuestionsQuestionId = <
  * @summary いいねの実施（質問コメント）
  */
 export const putQuestionsQuestionIdCommentCommentIdLike = (questionId: string, commentId: string) => {
-  return backendCustomInstance<void>({
-    url: `/accounts/me/likes/questions/${questionId}/comments/${commentId}`,
-    method: 'put',
-  });
+  return httpCall<void>({url: `/accounts/me/likes/questions/${questionId}/comments/${commentId}`, method: 'put'});
 };
 
 export const getPutQuestionsQuestionIdCommentCommentIdLikeMutationOptions = <
@@ -1063,10 +1052,7 @@ export const usePutQuestionsQuestionIdCommentCommentIdLike = <
  * @summary いいねの取消（質問コメント）
  */
 export const deleteQuestionsQuestionIdCommentsCommentIdLike = (questionId: string, commentId: string) => {
-  return backendCustomInstance<void>({
-    url: `/accounts/me/likes/questions/${questionId}/comments/${commentId}`,
-    method: 'delete',
-  });
+  return httpCall<void>({url: `/accounts/me/likes/questions/${questionId}/comments/${commentId}`, method: 'delete'});
 };
 
 export const getDeleteQuestionsQuestionIdCommentsCommentIdLikeMutationOptions = <
@@ -1125,10 +1111,7 @@ export const useDeleteQuestionsQuestionIdCommentsCommentIdLike = <
  * @summary いいねの実施（回答）
  */
 export const putQuestionsQuestionIdAnswerAnswerIdLike = (questionId: string, answerId: string) => {
-  return backendCustomInstance<void>({
-    url: `/accounts/me/likes/questions/${questionId}/answers/${answerId}`,
-    method: 'put',
-  });
+  return httpCall<void>({url: `/accounts/me/likes/questions/${questionId}/answers/${answerId}`, method: 'put'});
 };
 
 export const getPutQuestionsQuestionIdAnswerAnswerIdLikeMutationOptions = <
@@ -1184,10 +1167,7 @@ export const usePutQuestionsQuestionIdAnswerAnswerIdLike = <TError = ErrorType<u
  * @summary いいねの取消（回答）
  */
 export const deleteQuestionsQuestionIdAnswersAnswerIdLike = (questionId: string, answerId: string) => {
-  return backendCustomInstance<void>({
-    url: `/accounts/me/likes/questions/${questionId}/answers/${answerId}`,
-    method: 'delete',
-  });
+  return httpCall<void>({url: `/accounts/me/likes/questions/${questionId}/answers/${answerId}`, method: 'delete'});
 };
 
 export const getDeleteQuestionsQuestionIdAnswersAnswerIdLikeMutationOptions = <
@@ -1250,7 +1230,7 @@ export const putQuestionsQuestionIdAnswerAnswerIdCommentCommentIdLike = (
   answerId: string,
   commentId: string,
 ) => {
-  return backendCustomInstance<void>({
+  return httpCall<void>({
     url: `/accounts/me/likes/questions/${questionId}/answers/${answerId}/comments/${commentId}`,
     method: 'put',
   });
@@ -1316,7 +1296,7 @@ export const deleteQuestionsQuestionIdAnswersAnswerIdCommentsCommentIdLike = (
   answerId: string,
   commentId: string,
 ) => {
-  return backendCustomInstance<void>({
+  return httpCall<void>({
     url: `/accounts/me/likes/questions/${questionId}/answers/${answerId}/comments/${commentId}`,
     method: 'delete',
   });

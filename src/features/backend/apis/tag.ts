@@ -8,15 +8,15 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {Tag} from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * タグの一覧を取得します。
  * @summary タグ一覧取得
  */
 export const getListTags = (signal?: AbortSignal) => {
-  return backendCustomInstance<Tag[]>({url: `/tags`, method: 'get', signal});
+  return httpCall<Tag[]>({url: `/tags`, method: 'get', signal});
 };
 
 export const getGetListTagsQueryKey = () => [`/tags`] as const;

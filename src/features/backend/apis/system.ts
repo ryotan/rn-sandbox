@@ -8,15 +8,15 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {CsrfTokenResponse, AppUpdatesResponse, BadRequestResponse} from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * CSRFトークンを取得します。
  * @summary CSRFトークンの取得
  */
 export const getCsrfToken = (signal?: AbortSignal) => {
-  return backendCustomInstance<CsrfTokenResponse>({url: `/system/csrf-token`, method: 'get', signal});
+  return httpCall<CsrfTokenResponse>({url: `/system/csrf-token`, method: 'get', signal});
 };
 
 export const getGetCsrfTokenQueryKey = () => [`/system/csrf-token`] as const;
@@ -68,11 +68,7 @@ export const useGetCsrfToken = <
  * @summary アプリ更新情報の取得
  */
 export const getAppUpdates = (type: 'ios' | 'android', version: string, signal?: AbortSignal) => {
-  return backendCustomInstance<AppUpdatesResponse>({
-    url: `/system/app-updates/${type}/${version}`,
-    method: 'get',
-    signal,
-  });
+  return httpCall<AppUpdatesResponse>({url: `/system/app-updates/${type}/${version}`, method: 'get', signal});
 };
 
 export const getGetAppUpdatesQueryKey = (type: 'ios' | 'android', version: string) =>

@@ -8,8 +8,8 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {TermsOfService} from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * 有効な利用規約を取得します。このAPIの呼び出しには認証情報は不要です。
@@ -17,7 +17,7 @@ import type {ErrorType} from '../utils/customInstance';
  * @summary 有効な利用規約の取得
  */
 export const getTerms = (signal?: AbortSignal) => {
-  return backendCustomInstance<TermsOfService>({url: `/terms`, method: 'get', signal});
+  return httpCall<TermsOfService>({url: `/terms`, method: 'get', signal});
 };
 
 export const getGetTermsQueryKey = () => [`/terms`] as const;

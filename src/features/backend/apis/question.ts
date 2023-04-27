@@ -26,15 +26,15 @@ import type {
   CommentContent,
   CommentRegistration,
 } from './model';
-import {backendCustomInstance} from '../utils/customInstance';
-import type {ErrorType} from '../utils/customInstance';
+import {httpCall} from '../utils/httpCall';
+import type {ErrorType} from '../utils/httpCall';
 
 /**
  * 質問の一覧を取得します。検索文言やソート条件を指定すると条件に合った質問のみの一覧を取得します。
  * @summary 質問一覧取得
  */
 export const getListQuestions = (params?: GetListQuestionsParams, signal?: AbortSignal) => {
-  return backendCustomInstance<Question[]>({url: `/questions`, method: 'get', params, signal});
+  return httpCall<Question[]>({url: `/questions`, method: 'get', params, signal});
 };
 
 export const getGetListQuestionsQueryKey = (params?: GetListQuestionsParams) =>
@@ -81,7 +81,7 @@ export const useGetListQuestions = <
  * @summary 質問登録
  */
 export const postQuestions = (questionRegistration: QuestionRegistration) => {
-  return backendCustomInstance<QuestionContent>({
+  return httpCall<QuestionContent>({
     url: `/questions`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -132,7 +132,7 @@ export const usePostQuestions = <TError = ErrorType<BadRequestResponse>, TContex
  * @summary 質問取得
  */
 export const getDetailQuestion = (questionId: string, signal?: AbortSignal) => {
-  return backendCustomInstance<QuestionAndAnswer>({url: `/questions/${questionId}`, method: 'get', signal});
+  return httpCall<QuestionAndAnswer>({url: `/questions/${questionId}`, method: 'get', signal});
 };
 
 export const getGetDetailQuestionQueryKey = (questionId: string) => [`/questions/${questionId}`] as const;
@@ -178,7 +178,7 @@ export const useGetDetailQuestion = <
  * @summary 回答登録
  */
 export const postQuestionsQuestionIdAnswers = (questionId: string, answerRegistration: AnswerRegistration) => {
-  return backendCustomInstance<AnswerContent>({
+  return httpCall<AnswerContent>({
     url: `/questions/${questionId}/answers`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -242,7 +242,7 @@ export const usePostQuestionsQuestionIdAnswers = <
  * @summary コメント登録（質問）
  */
 export const postDetailComment = (questionId: string, commentRegistration: CommentRegistration) => {
-  return backendCustomInstance<CommentContent>({
+  return httpCall<CommentContent>({
     url: `/questions/${questionId}/comments`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
@@ -305,7 +305,7 @@ export const postQuestionsQuestionIdAnswersAnswerIdComments = (
   answerId: string,
   commentRegistration: CommentRegistration,
 ) => {
-  return backendCustomInstance<CommentContent>({
+  return httpCall<CommentContent>({
     url: `/questions/${questionId}/answers/${answerId}/comments`,
     method: 'post',
     headers: {'Content-Type': 'application/json'},
