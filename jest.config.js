@@ -36,6 +36,8 @@ const projects = presets.map(({preset, snapshotResolver}) => {
   // WORKAROUND: プロジェクトごとにwatchPluginsオプションが設定されていると警告が表示されてしまうので、設定から削除します。
   delete preset.watchPlugins;
 
+  preset.clearMocks = true;
+
   return preset;
 });
 
