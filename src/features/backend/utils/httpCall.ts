@@ -18,21 +18,25 @@ const AXIOS_INSTANCE = Axios.create({baseURL, headers});
 
 export const httpCall = <ResponseBody>(config: AxiosRequestConfig): Promise<AxiosResponse<ResponseBody>> => {
   const timeout = config.timeout ?? REQUEST_TIMEOUT;
-  const requestConfig = {
-    signal: AbortSignal.timeout(timeout),
-    ...config,
-  };
-  const promise = AXIOS_INSTANCE<ResponseBody>(requestConfig);
+  let timerId: NodeJS.Timeout;
+  if (config.signal == null) {
+    // Cannot use "AbortSignal.timeout" because it is not supported by React Native (Hermes).
+    const controller = new AbortController();
+    timerId = setTimeout(() => controller.abort(), timeout);
+    config.signal = controller.signal;
+  }
 
-  return promise.catch(error => {
-    if (Axios.isCancel(error)) {
-      throw new RequestCancelledError(
-        `The request has been cancelled due to a timeout or has been aborted by client.` +
-          ` method=[${String(requestConfig.method)}] url=[${String(requestConfig.url)}] timeout=[${timeout}ms]`,
-        error,
-        'RequestCancelledError',
-      );
-    }
-    throw error;
-  });
+  return AXIOS_INSTANCE<ResponseBody>(config)
+    .catch(error => {
+      if (Axios.isCancel(error)) {
+        throw new RequestCancelledError(
+          'The request has been cancelled due to a timeout or has been aborted by client.' +
+            ` method=[${String(config.method)}] url=[${String(config.url)}] timeout=[${timeout}ms]`,
+          error,
+          'RequestCancelledError',
+        );
+      }
+      throw error;
+    })
+    .finally(() => clearTimeout(timerId));
 };
