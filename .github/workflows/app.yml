@@ -94,7 +94,11 @@ jobs:
         with:
           reviewdog_version: latest
 
+      - name: Check barrels
+        run: bash .github/workflows/check-barrels.sh
+
       - name: Lint (ESLint)
+        if: always()
         run: npm run -s lint:es -- -f eslint-formatter-rdjson | reviewdog -tee -fail-on-error -reporter=github-check -filter-mode=nofilter -f=rdjson -name="ESLint"
 
       - name: Lint (TypeScript)
