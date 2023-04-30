@@ -20,6 +20,7 @@ module.exports = {
           '.hygen.js',
           'babel.config.js',
           'jest.config.js',
+          'orval.config.ts',
           'metro.config.js',
         ],
       },
@@ -109,5 +110,12 @@ module.exports = {
       },
     },
   ],
-  ignorePatterns: ['node_modules/', 'dist/', '!.eslintrc.js', '!.hygen.js', '!.prettierrc.js'],
+  ignorePatterns: [
+    'node_modules/',
+    'dist/',
+    'src/features/backend/apis/**/*.ts',
+    '!.eslintrc.js',
+    '!.hygen.js',
+    '!.prettierrc.js',
+  ],
 };
