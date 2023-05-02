@@ -1,6 +1,15 @@
 import {ApplicationError, RuntimeError} from '@bases/core/errors';
 
-import {assertDefined, assertInstanceOf, AssertionError, isAssertionError, isDefined, isInstanceOf} from './guards';
+import {
+  assertDefined,
+  assertInstanceOf,
+  AssertionError,
+  hasProperty,
+  hasStringProperty,
+  isAssertionError,
+  isDefined,
+  isInstanceOf,
+} from './guards';
 
 const mustDefined = (_: {}) => {};
 
@@ -208,5 +217,66 @@ describe('isAssertionError', () => {
   it('should return false if value is not instance of AssertionError', () => {
     expect(isAssertionError(new Error('any message'))).toStrictEqual(false);
     expect(isAssertionError(new RuntimeError('any message'))).toStrictEqual(false);
+  });
+});
+
+describe('hasProperty', () => {
+  test.each([
+    ['string', {string: 'string'}],
+    ['number', {number: 1}],
+    ['bigint', {bigint: 10n}],
+    ['boolean', {boolean: true}],
+    ['undefined', {undefined}],
+    ['symbol', {symbol: Symbol()}],
+    ['null', {null: null}],
+    ['object', {object: {}}],
+    ['array', {array: []}],
+    ['function', {function: function f() {}}],
+    ['arrow-function', {'arrow-function': () => {}}],
+    ['1', {1: undefined}],
+  ])(`should return true if value has property. value=[%s] property=[%s]`, (property, value) => {
+    const sut = hasProperty(property);
+    expect(sut(value)).toBe(true);
+  });
+  test.each([
+    ['any', null],
+    ['any', undefined],
+    ['any', {}],
+    ['toString', 1],
+    ['not-exist', {string: 'value'}],
+  ])(`should return false if value does not have property. value=[%s] property=[%s]`, (property, value) => {
+    const sut = hasProperty(property);
+    expect(sut(value)).toBe(false);
+  });
+});
+
+describe('hasStringProperty', () => {
+  test.each([['string', {string: 'string'}]])(
+    `should return true if value has property. value=[%s] property=[%s]`,
+    (property, value) => {
+      const sut = hasStringProperty(property);
+      expect(sut(value)).toBe(true);
+    },
+  );
+  test.each([
+    ['any', null],
+    ['any', undefined],
+    ['any', {}],
+    ['toString', 1],
+    ['not-exist', {string: 'value'}],
+    ['number', {number: 1}],
+    ['bigint', {bigint: 10n}],
+    ['boolean', {boolean: true}],
+    ['undefined', {undefined}],
+    ['symbol', {symbol: Symbol()}],
+    ['null', {null: null}],
+    ['object', {object: {}}],
+    ['array', {array: []}],
+    ['function', {function: function f() {}}],
+    ['arrow-function', {'arrow-function': () => {}}],
+    ['1', {1: undefined}],
+  ])(`should return false if value does not have property. value=[%s] property=[%s]`, (property, value) => {
+    const sut = hasStringProperty(property);
+    expect(sut(value)).toBe(false);
   });
 });
