@@ -32,3 +32,21 @@ export const assertInstanceOf =
       );
     }
   };
+
+export const hasProperty =
+  <T extends string>(propertyName: T) =>
+  (value: unknown): value is {[key in T]: unknown} => {
+    return typeof value === 'object' && value != null && propertyName in value;
+  };
+
+export const hasStringProperty =
+  <T extends string>(propertyName: T) =>
+  (value: unknown): value is {[key in T]: string} => {
+    return (
+      typeof value === 'object' &&
+      value != null &&
+      // ここまでのチェックでvalueは必ずobjectであることが保証されているはずなので、直接プロパティアクセスします。
+      // @ts-expect-error -- propertyNameはstringなので、インデックスアクセスに使えるはずですがうまく推論してくれていないようなので抑止します。
+      typeof value[propertyName] === 'string'
+    );
+  };
