@@ -222,6 +222,7 @@ describe('isAssertionError', () => {
 
 describe('hasProperty', () => {
   test.each([
+    // プロパティを持つリテラルオブジェクト
     ['string', {string: 'string'}],
     ['number', {number: 1}],
     ['bigint', {bigint: 10n}],
@@ -239,11 +240,23 @@ describe('hasProperty', () => {
     expect(sut(value)).toBe(true);
   });
   test.each([
-    ['any', null],
-    ['any', undefined],
-    ['any', {}],
-    ['toString', 1],
-    ['not-exist', {string: 'value'}],
+    // プリミティブ型
+    ['string', 'string'],
+    ['number', 1],
+    ['bigint', 10n],
+    ['boolean', true],
+    ['undefined', undefined],
+    ['symbol', Symbol()],
+    ['null', null],
+    // 代表的なオブジェクト
+    ['object', {}],
+    ['array', []],
+    ['function', function f() {}],
+    ['arrow-function', () => {}],
+    ['map', new Map([['map', 'map']])],
+    ['set', new Set([['map', 'map']])],
+    // プロパティを持つリテラルオブジェクト
+    ['not-exist', {string: 'string'}],
   ])(`should return false if value does not have property. value=[%s] property=[%s]`, (property, value) => {
     const sut = hasProperty(property);
     expect(sut(value)).toBe(false);
@@ -259,10 +272,22 @@ describe('hasStringProperty', () => {
     },
   );
   test.each([
-    ['any', null],
-    ['any', undefined],
-    ['any', {}],
-    ['toString', 1],
+    // プリミティブ型
+    ['string', 'string'],
+    ['number', 1],
+    ['bigint', 10n],
+    ['boolean', true],
+    ['undefined', undefined],
+    ['symbol', Symbol()],
+    ['null', null],
+    // 代表的なオブジェクト
+    ['object', {}],
+    ['array', []],
+    ['function', function f() {}],
+    ['arrow-function', () => {}],
+    ['map', new Map([['map', 'map']])],
+    ['set', new Set([['map', 'map']])],
+    // プロパティを持つリテラルオブジェクト
     ['not-exist', {string: 'value'}],
     ['number', {number: 1}],
     ['bigint', {bigint: 10n}],
