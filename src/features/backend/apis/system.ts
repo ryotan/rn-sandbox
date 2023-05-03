@@ -8,8 +8,8 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {CsrfTokenResponse, AppUpdatesResponse, BadRequestResponse} from './model';
-import {httpCall} from '../utils/httpCall';
-import type {ErrorType} from '../utils/httpCall';
+import {httpCall} from '../../../bases/http-client/httpCall';
+import type {ErrorType} from '../../../bases/http-client/httpCall';
 
 /**
  * CSRFトークンを取得します。

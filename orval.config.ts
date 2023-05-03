@@ -1,4 +1,5 @@
 import {defineConfig} from 'orval';
+import path from 'path';
 
 export default defineConfig({
   backend: {
@@ -15,8 +16,11 @@ export default defineConfig({
           useQuery: true,
         },
         mutator: {
-          path: 'src/features/backend/utils/httpCall.ts',
+          path: 'src/bases/http-client/httpCall.ts',
           name: 'httpCall',
+          alias: {
+            '@bases': path.resolve(__dirname, 'src/bases'),
+          },
         },
       },
     },

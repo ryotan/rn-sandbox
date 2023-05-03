@@ -26,8 +26,8 @@ import type {
   CommentContent,
   CommentRegistration,
 } from './model';
-import {httpCall} from '../utils/httpCall';
-import type {ErrorType} from '../utils/httpCall';
+import {httpCall} from '../../../bases/http-client/httpCall';
+import type {ErrorType} from '../../../bases/http-client/httpCall';
 
 /**
  * 質問の一覧を取得します。検索文言やソート条件を指定すると条件に合った質問のみの一覧を取得します。
