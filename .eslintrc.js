@@ -1,4 +1,5 @@
 module.exports = {
+  plugins: ['strict-dependencies'],
   extends: [
     // https://github.com/expo/expo/tree/master/packages/eslint-config-universe
     'universe/native',
@@ -28,6 +29,46 @@ module.exports = {
     // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    // https://github.com/knowledge-work/eslint-plugin-strict-dependencies
+    'strict-dependencies/strict-dependencies': [
+      'error',
+      [
+        {
+          module: 'src/apps/**',
+          allowReferenceFrom: ['src/apps/**'],
+        },
+        {
+          module: 'src/features/**',
+          allowReferenceFrom: ['src/apps/**', 'src/features/**', 'src/fixtures/**'],
+        },
+        {
+          module: 'src/bases/**',
+          allowReferenceFrom: ['src/apps/**', 'src/bases/**', 'src/features/**', 'src/fixtures/**', '__jest__/**'],
+        },
+        {
+          module: '@react-navigation/**',
+          allowReferenceFrom: ['src/apps/**', 'src/bases/focus-manager/**', '__jest__/**', 'src/@types/**'],
+        },
+        {
+          // Use `react-native-paper` only from `src/bases/ui` (as the anti-corruption layer).
+          module: 'react-native-paper',
+          allowReferenceFrom: ['src/bases/ui'],
+        },
+      ],
+    ],
+    // https://eslint.org/docs/latest/rules/no-restricted-imports
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'react-native',
+            importNames: ['SafeAreaProvider', 'SafeAreaView'],
+            message: 'Use SafeAreaProvider and SafeAreaView from react-native-safe-area-context instead.',
+          },
+        ],
+      },
+    ],
   },
   settings: {
     'import/internal-regex': '^(@@/|@@assets/|@/|@bases/|@features/|@fixtures/)',
