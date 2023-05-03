@@ -45,10 +45,8 @@ export const defaultGlobalErrorHandler = (queryClient: QueryClient, onUnauthoriz
       // Timeout以外の理由でcancelされた場合 (cancelQueries呼び出し時など)は特に処理を実施しない
       isRequestCancelledError(error)
     ) {
-      return;
-    }
-
-    if (error && isAxiosError(error)) {
+      // do nothing
+    } else if (isAxiosError(error)) {
       handleAxiosError(error, queryClient, onUnauthorized);
     } else if (isRequestTimeoutError(error)) {
       // 時間をおいてから再操作をするように促すスナックバーを表示
