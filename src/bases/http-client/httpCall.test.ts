@@ -3,6 +3,7 @@ import {AxiosError, isCancel} from 'axios';
 import {setupTestServer} from '@@/__jest__/util/setupTestServer';
 
 import {assertRequestCancelledError} from './RequestCancelledError';
+import {assertRequestTimeoutError} from './RequestTimeoutError';
 import {httpCall} from './httpCall';
 
 const {path} = setupTestServer('https://mock.example.dev');
@@ -29,17 +30,16 @@ describe('httpCall', () => {
     expect(response.config.headers['Accept']).toBe('application/json');
   });
 
-  it('should throw RequestCancelledError if api did not respond within specified time', async () => {
+  it('should throw RequestTimeoutError if api did not respond within specified time', async () => {
     const timeout = 100;
     // To prevent mistakes that can occur when using "expect" within conditional statements, "expect.assertions" is used.
-    expect.assertions(5);
+    expect.assertions(4);
     try {
       await httpCall({method: 'delete', url: path.Delay(200), timeout});
     } catch (e) {
-      assertRequestCancelledError(e);
+      assertRequestTimeoutError(e);
       /* eslint-disable jest/no-conditional-expect -- Using expect.assertions to prevent mistakes */
-      expect(e.message).toMatch(/cancelled/i);
-      expect(e.message).toMatch(/abort/i);
+      expect(e.message).toMatch(/cancelled due to a timeout/i);
       expect(e.message).toMatch(`timeout=[${timeout}ms]`);
       expect(e.message).toMatch(`url=[${path.Delay(200)}]`);
       expect(isCancel(e.cause)).toBe(true);
@@ -64,7 +64,7 @@ describe('httpCall', () => {
 
   it('should be able to cancel request manually', async () => {
     // To prevent mistakes that can occur when using "expect" within conditional statements, "expect.assertions" is used.
-    expect.assertions(6);
+    expect.assertions(5);
     const timeout = 200;
     const source = new AbortController();
     const response = httpCall({method: 'patch', url: path.Delay(500), signal: source.signal, timeout});
@@ -74,8 +74,7 @@ describe('httpCall', () => {
     } catch (e) {
       assertRequestCancelledError(e);
       /* eslint-disable jest/no-conditional-expect -- Using expect.assertions to prevent mistakes */
-      expect(e.message).toMatch(/cancelled/i);
-      expect(e.message).toMatch(/abort/i);
+      expect(e.message).toMatch(/cancelled by the client/i);
       expect(e.message).toMatch('method=[patch]');
       expect(e.message).toMatch(`timeout=[${timeout}ms]`);
       expect(e.message).toMatch(`url=[${path.Delay(500)}]`);
