@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TanstackQueryClientProvider 子要素でQueryClientが利用できること 1`] = `
+[
+  " ",
+  <Text
+    testID="test"
+  >
+    {"queries":{"retry":false},"mutations":{}}
+  </Text>,
+  " ",
+  <RNSFullWindowOverlay
+    style={
+      {
+        "height": "100%",
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  />,
+]
+`;
