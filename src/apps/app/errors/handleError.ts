@@ -34,14 +34,9 @@ const hasErrorCode = hasStringProperty('errorCode');
 export const handleError = (error: unknown) => {
   if (isAxiosError(error)) {
     const errorData: unknown = error.response?.data;
-    const code = hasCode(errorData) ? errorData.code : error.name;
-    log.error(error, code);
+    log.error(error, hasCode(errorData) ? errorData.code : error.name);
   } else if (error instanceof Error) {
-    if (hasErrorCode(error)) {
-      log.error(error, error.errorCode);
-    } else {
-      log.error(error, error.name);
-    }
+    log.error(error, hasErrorCode(error) ? error.errorCode : error.name);
   } else {
     log.error(new RuntimeError(error), 'ThrownObjectIsNotError');
   }
