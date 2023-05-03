@@ -15,8 +15,8 @@ import type {
   QueryKey,
 } from '@tanstack/react-query';
 import type {Event, BadRequestResponse, GetEventsParams, EventContent, EventRegistration} from './model';
-import {httpCall} from '../utils/httpCall';
-import type {ErrorType} from '../utils/httpCall';
+import {httpCall} from '../../../bases/http-client/httpCall';
+import type {ErrorType} from '../../../bases/http-client/httpCall';
 
 /**
  * 掲載期間中のイベントまたは全イベントの一覧を取得します。

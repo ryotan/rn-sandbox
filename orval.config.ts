@@ -15,7 +15,7 @@ export default defineConfig({
           useQuery: true,
         },
         mutator: {
-          path: 'src/features/backend/utils/httpCall.ts',
+          path: 'src/bases/http-client/httpCall.ts',
           name: 'httpCall',
         },
       },

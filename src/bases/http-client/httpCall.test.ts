@@ -1,8 +1,8 @@
 import {AxiosError, isCancel} from 'axios';
 
 import {setupTestServer} from '@@/__jest__/util/setupTestServer';
-import {assertRequestCancelledError} from '@features/backend/errors/RequestCancelledError';
 
+import {assertRequestCancelledError} from './RequestCancelledError';
 import {httpCall} from './httpCall';
 
 const {path} = setupTestServer('https://mock.example.dev');

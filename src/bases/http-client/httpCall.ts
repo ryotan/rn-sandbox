@@ -3,7 +3,7 @@ import Axios from 'axios';
 import {applicationName, nativeApplicationVersion} from 'expo-application';
 import {Platform} from 'react-native';
 
-import {RequestCancelledError} from '../errors/RequestCancelledError';
+import {RequestCancelledError} from './RequestCancelledError';
 
 export type ErrorType<ErrorResponseBody> = AxiosError<ErrorResponseBody> | RequestCancelledError;
 

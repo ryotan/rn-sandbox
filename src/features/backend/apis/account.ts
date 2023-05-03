@@ -30,8 +30,8 @@ import type {
   LikedEventResponse,
   LikedQuestionResponse,
 } from './model';
-import {httpCall} from '../utils/httpCall';
-import type {ErrorType} from '../utils/httpCall';
+import {httpCall} from '../../../bases/http-client/httpCall';
+import type {ErrorType} from '../../../bases/http-client/httpCall';
 
 // https://stackoverflow.com/questions/49579094/typescript-conditional-types-filter-out-readonly-properties-pick-only-requir/49579497#49579497
 type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;

@@ -8,8 +8,8 @@
 import {useQuery} from '@tanstack/react-query';
 import type {UseQueryOptions, QueryFunction, UseQueryResult, QueryKey} from '@tanstack/react-query';
 import type {TermsOfService} from './model';
-import {httpCall} from '../utils/httpCall';
-import type {ErrorType} from '../utils/httpCall';
+import {httpCall} from '../../../bases/http-client/httpCall';
+import type {ErrorType} from '../../../bases/http-client/httpCall';
 
 /**
  * 有効な利用規約を取得します。このAPIの呼び出しには認証情報は不要です。
