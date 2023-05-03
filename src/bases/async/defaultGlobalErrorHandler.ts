@@ -40,9 +40,9 @@ export const defaultGlobalErrorHandler = (queryClient: QueryClient, onUnauthoriz
   return (error: unknown) => {
     logErrorDetails(error);
     if (
-      // ApplicationErrorは呼出し元で処理する
+      // ApplicationErrorは呼出し元で処理する規約なので、ここでは特に処理を実施しない
       isApplicationError(error) ||
-      // Timeout以外の理由でcancelされた場合 (cancelQueries呼び出し時など)は特に処理を実施しない
+      // Timeout以外の理由でcancelされた場合 (cancelQueries呼び出し時など)は、ユーザへの通知も障害通知も不要なのでここでは特に処理を実施しない
       isRequestCancelledError(error)
     ) {
       // do nothing
