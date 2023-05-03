@@ -27,6 +27,7 @@ import {AxiosError, AxiosHeaders} from 'axios';
 import {Alert} from 'react-native';
 
 import {ApplicationError, RuntimeError, setHandleError} from '@bases/core/errors';
+import {RequestCancelledError, RequestTimeoutError} from '@bases/http-client';
 import {log} from '@bases/logging';
 import {loadBundledMessages} from '@bases/message';
 import {Snackbar} from '@bases/ui/snackbar';
@@ -115,7 +116,7 @@ describe('defaultGlobalErrorHandler', () => {
     expect(onUnauthorized).not.toHaveBeenCalled();
   });
 
-  test('504 SGateway Timeoutの場合に時間をおいてから再操作をするように促すスナックバーを表示', () => {
+  test('504 Gateway Timeoutの場合に時間をおいてから再操作をするように促すスナックバーを表示', () => {
     errorHandler(createAxiosErrorForTest(504));
     expect(spyAlert).not.toHaveBeenCalled();
     expect(spySnackbar).toHaveBeenCalledTimes(1);
@@ -159,6 +160,33 @@ describe('defaultGlobalErrorHandler', () => {
     errorHandler(new ApplicationError(''));
     expect(spyAlert).not.toHaveBeenCalled();
     expect(spySnackbar).not.toHaveBeenCalled();
+    expect(onUnauthorized).not.toHaveBeenCalled();
+  });
+
+  test('RequestCancelledErrorは処理しないこと', () => {
+    errorHandler(new RequestCancelledError());
+    expect(spyAlert).not.toHaveBeenCalled();
+    expect(spySnackbar).not.toHaveBeenCalled();
+    expect(onUnauthorized).not.toHaveBeenCalled();
+  });
+
+  test('RequestTimeoutErrorの場合に時間をおいてから再操作をするように促すスナックバーを表示', () => {
+    errorHandler(new RequestTimeoutError());
+    expect(spyAlert).not.toHaveBeenCalled();
+    expect(spySnackbar).toHaveBeenCalledTimes(1);
+    expect(spySnackbar).toHaveBeenCalledWith(
+      'サーバへの接続がタイムアウトしました。時間をおいてから再度お試しください。',
+    );
+    expect(onUnauthorized).not.toHaveBeenCalled();
+  });
+
+  test('AxiosErrorにレスポンスが含まれない場合でもエラーにならないこと', () => {
+    errorHandler(new AxiosError());
+    expect(spyAlert).not.toHaveBeenCalled();
+    expect(spySnackbar).toHaveBeenCalledTimes(1);
+    expect(spySnackbar).toHaveBeenCalledWith(
+      '予期せぬ通信エラーが発生しました。時間をおいてから再度お試しいただき、解決しない場合はお問い合わせください。',
+    );
     expect(onUnauthorized).not.toHaveBeenCalled();
   });
 
