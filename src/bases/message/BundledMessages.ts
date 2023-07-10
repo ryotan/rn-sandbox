@@ -100,6 +100,8 @@ export const bundledMessages = {
     'ただいまシステムメンテナンスを実施しております。時間をおいてから再度お試しください。',
   'fw.error.予期せぬ通信エラー':
     '予期せぬ通信エラーが発生しました。時間をおいてから再度お試しいただき、解決しない場合はお問い合わせください。',
+  'fw.error.想定外エラー':
+    'エラーが発生しました。時間をおいてから再度お試しいただき、解決しない場合はお問い合わせください。',
 } as const;
 
 export type BundledMessagesType = typeof bundledMessages;
