@@ -12,7 +12,7 @@ PODS:
   - EXJSONUtils (0.5.1)
   - EXManifests (0.5.2):
     - EXJSONUtils
-  - Expo (48.0.19):
+  - Expo (48.0.20):
     - ExpoModulesCore
   - expo-dev-client (2.1.6):
     - EXManifests
@@ -122,7 +122,7 @@ PODS:
     - React-Core
   - EXSQLite (11.1.1):
     - ExpoModulesCore
-  - EXUpdatesInterface (0.9.1)
+  - EXUpdatesInterface (0.9.3)
   - FBLazyVector (0.71.8)
   - FBReactNativeSpec (0.71.8):
     - RCT-Folly (= 2021.07.22.00)
@@ -786,7 +786,7 @@ SPEC CHECKSUMS:
   EXFont: 6ea3800df746be7233208d80fe379b8ed74f4272
   EXJSONUtils: 48b1e764ac35160e6f54d21ab60d7d9501f3e473
   EXManifests: 500666d48e8dd7ca5a482c9e729e4a7a6c34081b
-  Expo: 8448e3a2aa1b295f029c81551e1ab6d986517fdb
+  Expo: b7d2843b0a0027d0ce76121a63085764355a16ed
   expo-dev-client: 84792ce20d34fa5c882cdc3ca338ea1b2cde5013
   expo-dev-launcher: c50f1b78ea294f5762902b768952898d17739983
   expo-dev-menu: 29c0d82e99266c4fb2cbc94aca417012ad4a5ab6
@@ -805,7 +805,7 @@ SPEC CHECKSUMS:
   EXSecureStore: e8923258361cc406d0401af380f12bd05b2b720f
   EXSplashScreen: 0e0a9ba0cf7553094e93213099bd7b42e6e237e9
   EXSQLite: 848167441b14cb6cdd6ae46c8d62289161a79550
-  EXUpdatesInterface: dd699d1930e28639dcbd70a402caea98e86364ca
+  EXUpdatesInterface: e86394c0770f14eb96386cbb32be83fa6a97e8f9
   FBLazyVector: f637f31eacba90d4fdeff3fa41608b8f361c173b
   FBReactNativeSpec: 0d9a4f4de7ab614c49e98c00aedfd3bfbda33d59
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
