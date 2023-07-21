@@ -33,6 +33,7 @@ import {defaultMutationCache, defaultQueryCache} from './defaultCache';
 import {defaultOptions} from './defaultOptions';
 
 const onAppStateChange = (newAppState: AppStateStatus) => {
+  /* istanbul ignore else -- Only on iOS and Android */
   if (Platform.OS !== 'web') {
     focusManager.setFocused(newAppState === 'active');
   }
