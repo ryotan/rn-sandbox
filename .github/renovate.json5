@@ -35,7 +35,6 @@
         'babel-preset-expo',
         'expo',
         'jest',
-        'jest-expo',
         'react',
         'react-dom',
         'react-native',
@@ -57,11 +56,13 @@
       groupName: 'Depends on Expo version',
       enabled: false,
       matchPackageNames: [
-        // jest-expo -> jest
+        // jest
         '@types/jest',
-        // react, jest-expo -> react-test-renderer
+        // react -> react-test-renderer
+        'jest-expo',
+        // react
         'react-test-renderer',
-        // react-test-renderer -> @types/react-test-renderer
+        // react-test-renderer
         '@types/react-test-renderer',
         // expo-template-bare-minimum
         'gradle',
@@ -69,7 +70,9 @@
         'com.android.tools.build:gradle',
         // expo-template-bare-minimum
         'de.undercouch:gradle-download-task',
-        // @testing-library/react-native -> jest
+        // jest
+        '@testing-library/jest-native',
+        // jest
         '@testing-library/react-native',
       ],
       matchPackagePrefixes: [
