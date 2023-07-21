@@ -67,7 +67,7 @@ export const TanstackQueryClientProvider: React.FC<React.PropsWithChildren<React
     // オフライン状態からオンライン状態に変化した際にrefetchできるようにする
     onlineManager.setEventListener(setOnline => {
       return NetInfo.addEventListener(state => {
-        setOnline(state.isConnected ?? false);
+        setOnline(!!state.isConnected);
       });
     });
   }, []);
