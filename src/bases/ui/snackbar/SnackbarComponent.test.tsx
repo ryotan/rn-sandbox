@@ -87,7 +87,11 @@ describe('SnackbarComponent', () => {
     // propsが更新されたのでフェードアウトが開始すること。
     await advanceTimersByTimeInAct(FADE_OUT_DURATION * 0.1);
     const opacityAfterUpdate = getStyle<ViewStyle>(screen.getByTestId('snackbarAnimatedView')).opacity;
-    expect(opacityAfterUpdate).toBeLessThan(opacityBeforeUpdate);
+    expect(opacityAfterUpdate).toBeLessThan(
+      typeof opacityBeforeUpdate === 'number'
+        ? opacityBeforeUpdate
+        : /* opacityBeforeUpdateがnumber出なかった場合は、テストを失敗させる（opacityは正の値なので、-1未満にはならない */ -1,
+    );
     expect(screen).toMatchSnapshot('props更新後のフェードアウト中');
 
     await advanceTimersByTimeInAct(FADE_IN_DURATION * 0.5 - FADE_OUT_DURATION * 0.1);
@@ -179,7 +183,11 @@ describe('SnackbarComponent', () => {
     screen.update(<SnackbarComponent message="テストメッセージ" hide />);
     await advanceTimersByTimeInAct(FADE_OUT_DURATION * 0.01);
     const opacityAfterUpdate = getStyle<ViewStyle>(screen.getByTestId('snackbarAnimatedView')).opacity!;
-    expect(opacityAfterUpdate).toBeLessThan(opacityBeforeUpdate);
+    expect(opacityAfterUpdate).toBeLessThan(
+      typeof opacityBeforeUpdate === 'number'
+        ? opacityBeforeUpdate
+        : /* opacityBeforeUpdateがnumber出なかった場合は、テストを失敗させる（opacityは正の値なので、-1未満にはならない */ -1,
+    );
 
     // フェードアウト時間が経過すると、コンポーネントが消えること
     await advanceTimersByTimeInAct(FADE_OUT_DURATION);

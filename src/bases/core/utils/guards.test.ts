@@ -94,7 +94,7 @@ describe('isDefined', () => {
     } else {
       expect(isDefined(value)).toStrictEqual(false);
       // @ts-expect-error -- Should be inferred as `null` or `undefined`
-      mustDefined(value); // 型エラーが発生しないことを確認する
+      mustDefined(value); // 型エラーが発生することを確認する
       expect(() => assertDefined(value)).toThrow(
         new AssertionError(`value must not be null or undefined but actual value is ${String(value)}.`),
       );
@@ -103,25 +103,9 @@ describe('isDefined', () => {
   });
 
   it.each([
-    // WORKAROUND: Until TypeScript 5.0.0
-    //   TypeScript 4.9.5時点では推論結果のUnion型にLiteral型が含まれると（？）、配列のfilterによる型のNarrowingに失敗してしまう。
-    // [[complexUnion()]],
-    // [[stringUnion()]],
-    [
-      [
-        0,
-        false,
-        '',
-        Symbol(),
-        10n,
-        [],
-        {},
-        // WORKAROUND: Until TypeScript 5.0.0
-        //   TypeScript 4.9.5時点では推論結果のUnion型にLiteral型が含まれると（？）、配列のfilterによる型のNarrowingに失敗してしまう。
-        // complexUnion(),
-        // stringUnion()
-      ] as const,
-    ],
+    [[complexUnion()]],
+    [[stringUnion()]],
+    [[0, false, '', Symbol(), 10n, [], {}, complexUnion(), stringUnion()] as const],
     [
       [
         {
@@ -137,26 +121,45 @@ describe('isDefined', () => {
         } as const,
       ],
     ],
-  ])('should guard array items when using Array.prototype.filter. value=[%s]', value => {
-    value.filter(isDefined).forEach(v => {
-      mustDefined(v); // 型エラーが発生しないことを確認する
-      expect(v).not.toBeUndefined();
-      expect(v).not.toBeNull();
-    });
-  });
-
-  it('should report type error for complex inferred type until TypeScript 5.0', () => {
-    new Array(10)
-      .fill(undefined)
-      .map(complexUnion)
-      .filter(isDefined)
-      .forEach(v => {
-        // @ts-expect-error -- TypeScript 4.9.5 fails to infer type of array items if the type is union type including literal type.
-        mustDefined(v); // 型エラーが発生することを確認する
+  ])(
+    'should guard array items when using Array.prototype.filter. value=[%s]',
+    (
+      // WORKAROUND: typescript@5.1.6
+      //   型が複雑になりすぎるせいか、isDefinedでfilterしてもNonNullableにならなくなってしまうので、unknown[]で宣言
+      //   （それぞれの型単独なら問題ないが、Unionするとうまく推論されなくなる）
+      value: readonly unknown[],
+      // value:
+      //   | ({string: 'a'} | string | number | boolean | null | undefined)[]
+      //   | readonly [
+      //       0,
+      //       false,
+      //       '',
+      //       symbol,
+      //       10n,
+      //       readonly [],
+      //       {},
+      //       {string: 'a'} | string | number | boolean | null | undefined,
+      //       string | null | undefined,
+      //     ]
+      //   | {
+      //       number: 0;
+      //       boolean: false;
+      //       string: '';
+      //       symbol: symbol;
+      //       bigint: 10n;
+      //       array: readonly [];
+      //       object: {};
+      //       complexUnion: {string: 'a'} | string | number | boolean | null | undefined;
+      //       stringUnion: string | null | undefined;
+      //     }[],
+    ) => {
+      value.filter(isDefined).forEach(v => {
+        mustDefined(v); // 型エラーが発生しないことを確認する
         expect(v).not.toBeUndefined();
         expect(v).not.toBeNull();
       });
-  });
+    },
+  );
 });
 
 describe('isInstanceOf', () => {
