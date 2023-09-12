@@ -78,7 +78,7 @@
     "fp-ts": "^2.13.1",
     "lodash": "^4.17.21",
     "msw": "^1.2.1",
-    "nanoid": "^4.0.2",
+    "nanoid": "^5.0.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-gesture-handler": "~2.12.0",
