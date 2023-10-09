@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
 
       - name: Cache asdf
         uses: actions/cache@v3
@@ -62,7 +62,7 @@ jobs:
           restore-keys: 1-${{ runner.os }}-asdf-
 
       - name: Install tools
-        uses: asdf-vm/actions/install@v2
+        uses: asdf-vm/actions/install@v3
 
       # Cache '.npm' to speed up clean-install when package-lock.json is updated.
       # Loosened up the restore-keys a bit, as it doesn't have to match the contents of package-lock.json exactly.
